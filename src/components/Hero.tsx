@@ -9,8 +9,6 @@ export default function Hero() {
       {/* ==== BACKGROUND VIDEO ==== */}
       <motion.video
         autoPlay
-        loop
-        muted
         playsInline
         initial={{ opacity: 0, filter: "blur(10px)" }}
         animate={{ opacity: 1, filter: "blur(0px)" }}
