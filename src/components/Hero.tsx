@@ -34,7 +34,7 @@ export default function Hero() {
           transition={{ duration: 1 }}
           className="flex flex-col items-center md:items-start md:w-1/2 space-y-6"
         >
-          <div className="relative">
+          <div className="relative mt-6">
             <motion.img
               src={ghunaghostLogo}
               alt="Ghunaghost Tech Logo"
