@@ -1,80 +1,80 @@
 // src/components/Hero.tsx
 import { motion } from "framer-motion";
-import { Lock, Key, Cpu } from "lucide-react"; // Tech icons
+import { ArrowDown } from "lucide-react";
 import ghunaghostLogo from "../assets/img/ghunaghostlogo.png";
+import introVideo from "../assets/img/intro.mp4";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen w-full bg-gray-950 text-white flex items-center justify-center overflow-hidden px-6 pt-24">
-      {/* Animated floating icons */}
-      <motion.div
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 6, repeat: Infinity }}
-        className="absolute top-20 left-12 text-blue-500/40"
+    <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center bg-black text-white">
+      {/* Background video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover opacity-60"
       >
-        <Lock size={48} />
-      </motion.div>
+        <source src={introVideo} type="video/mp4" />
+      </video>
 
-      <motion.div
-        animate={{ y: [0, 30, 0] }}
-        transition={{ duration: 8, repeat: Infinity }}
-        className="absolute bottom-28 right-16 text-purple-500/40"
-      >
-        <Key size={50} />
-      </motion.div>
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-gray-900/40 to-blue-900/30"></div>
 
-      <motion.div
-        animate={{ x: [0, 25, 0] }}
-        transition={{ duration: 7, repeat: Infinity }}
-        className="absolute top-1/3 right-1/3 text-green-400/40"
-      >
-        <Cpu size={50} />
-      </motion.div>
-
-      {/* Main content */}
-      <div className="max-w-7xl w-full flex flex-col md:flex-row items-center gap-16 relative z-10">
-        {/* Logo */}
+      {/* Content */}
+      <div className="relative z-10 max-w-6xl px-6 text-center md:text-left flex flex-col md:flex-row items-center gap-12">
+        {/* Logo + animation */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1 }}
-          className="w-60 md:w-64 flex items-center justify-center shadow-2xl"
+          initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="flex-shrink-0"
         >
-          <img
-            src={ghunaghostLogo}
-            alt="Ghunaghost Tech Logo"
-            className="w-full h-auto object-contain"
-          />
+          <div className="relative">
+            <motion.img
+              src={ghunaghostLogo}
+              alt="Ghunaghost Tech Logo"
+              className="w-56 md:w-64 drop-shadow-2xl"
+              whileHover={{ scale: 1.05, rotate: 2 }}
+            />
+            {/* Glow Pulse */}
+            <motion.div
+              className="absolute inset-0 rounded-full blur-3xl bg-blue-500/20"
+              animate={{ scale: [1, 1.2, 1], opacity: [0.6, 0.2, 0.6] }}
+              transition={{ duration: 4, repeat: Infinity }}
+            />
+          </div>
         </motion.div>
 
-        {/* Text Content */}
+        {/* Text Section */}
         <motion.div
-          initial={{ opacity: 0, x: 80 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.2 }}
-          className="text-center md:text-left"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.3, delay: 0.3 }}
+          className="max-w-xl"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-5xl font-bold mb-6 leading-tight">
-            Welcome to{" "}
-            <span className="text-blue-500">Ghunaghost Tech Ltd</span>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+            Empowering the Future with{" "}
+            <span className="text-blue-500">Invisible Power</span>
           </h1>
-            <span>Invisible Power, Lasting Impact.</span>
-          <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl">
-            We specialize in{" "}
-            <span className="font-semibold text-white">Website Design</span>,{" "}
-            <span className="font-semibold text-white">Cybersecurity</span>,{" "}
-            <span className="font-semibold text-white">Tech Education</span>, and more.  
-            Our mission is to deliver world-class digital solutions that empower 
-            businesses and individuals across Africa and beyond.
+
+          <p className="text-lg md:text-xl text-gray-300 mb-6">
+            <span className="font-semibold text-white">Ghunaghost Tech Ltd</span> 
+            delivers <span className="text-blue-400">cutting-edge web solutions</span>, 
+            <span className="text-blue-400"> cybersecurity</span>, and 
+            <span className="text-blue-400"> tech education</span> — driving innovation across Africa and beyond.
           </p>
 
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row mb-4 gap-4 justify-center md:justify-start">
+          <p className="italic text-gray-400 mb-8">
+            “Invisible Power, Lasting Impact.”
+          </p>
+
+          <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               href="#services"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition shadow-lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition"
             >
               Explore Services
             </motion.a>
@@ -82,7 +82,7 @@ export default function Hero() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               href="#contact"
-              className="border border-blue-500 hover:bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg transition shadow-lg"
+              className="border border-blue-500 hover:bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition"
             >
               Contact Us
             </motion.a>
@@ -90,8 +90,16 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Background gradient glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-800/20 via-transparent to-purple-800/20 pointer-events-none"></div>
+      {/* Scroll Down Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, y: [0, 10, 0] }}
+        transition={{ delay: 1.5, duration: 2, repeat: Infinity }}
+        className="absolute bottom-8 flex flex-col items-center text-gray-400"
+      >
+        <ArrowDown className="w-6 h-6" />
+        <span className="text-xs mt-1">Scroll</span>
+      </motion.div>
     </section>
   );
 }
