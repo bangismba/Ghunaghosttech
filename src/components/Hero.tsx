@@ -10,20 +10,21 @@ export default function Hero() {
       <motion.video
         autoPlay
         playsInline
+        // 🔥 Removed loop & muted
         initial={{ opacity: 0, filter: "blur(10px)" }}
         animate={{ opacity: 1, filter: "blur(0px)" }}
         transition={{ duration: 2 }}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover object-center"
       >
         <source src={introVideo} type="video/mp4" />
       </motion.video>
 
       {/* ==== GRADIENT + GLASS OVERLAY ==== */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80"></div>
-      <div className="absolute inset-0 backdrop-blur-[2px]"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70"></div>
+      <div className="absolute inset-0 backdrop-blur-[1px]"></div>
 
       {/* ==== CONTENT CONTAINER ==== */}
-      <div className="relative z-10 w-full max-w-7xl px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-14 md:gap-20 text-center md:text-left">
+      <div className="relative z-10 w-full max-w-7xl px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-10 md:gap-16 text-center md:text-left">
         
         {/* === LOGO SIDE === */}
         <motion.div
@@ -36,18 +37,17 @@ export default function Hero() {
             <motion.img
               src={ghunaghostLogo}
               alt="Ghunaghost Tech Logo"
-              className="w-44 sm:w-56 md:w-72 drop-shadow-2xl select-none"
+              className="w-36 sm:w-48 md:w-64 drop-shadow-2xl select-none"
               whileHover={{ scale: 1.05, rotate: 2 }}
               transition={{ type: "spring", stiffness: 200 }}
             />
-            {/* Glow pulse */}
             <motion.div
               className="absolute inset-0 rounded-full blur-3xl bg-blue-500/25"
-              animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0.1, 0.3] }}
+              animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.1, 0.3] }}
               transition={{ duration: 4, repeat: Infinity }}
             />
           </div>
-          <p className="italic text-gray-300 text-base sm:text-lg">
+          <p className="italic text-gray-300 text-sm sm:text-lg">
             “Invisible Power, Lasting Impact.”
           </p>
         </motion.div>
@@ -57,7 +57,7 @@ export default function Hero() {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.2, delay: 0.2 }}
-          className="max-w-xl md:w-1/2 space-y-6"
+          className="max-w-xl md:w-1/2 space-y-5"
         >
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold leading-tight drop-shadow-md">
             Welcome to{" "}
