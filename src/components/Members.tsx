@@ -38,7 +38,7 @@ export default function Founder() {
           </h3>
 
           <p className="text-gray-300 text-lg leading-relaxed mb-6">
-            Born in Maiduguri and raised in Abuja, <strong>Aliyu Muhammadu Babangida</strong> 
+            Born in Maiduguri and raised in Abuja, <strong>Aliyu Muhammadu Babangida </strong> 
             is a visionary software developer, UI/UX designer, and cybersecurity professional. 
             He founded <strong>Ghunaghost Tech Ltd</strong> with the mission to empower Africa’s 
             digital transformation through innovation, security, and education.
