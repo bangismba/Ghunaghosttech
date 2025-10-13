@@ -58,6 +58,7 @@ export default function Hero() {
             Welcome to{" "}
             <span className="text-blue-500">Ghunaghost Tech Ltd</span>
           </h1>
+            <span>Invisible Power, Lasting Impact.</span>
           <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl">
             We specialize in{" "}
             <span className="font-semibold text-white">Website Design</span>,{" "}
