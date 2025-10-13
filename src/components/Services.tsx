@@ -1,31 +1,37 @@
 // src/components/Services.tsx
-import { Code, Palette, ShieldCheck, Rocket } from "lucide-react";
+import { Code, Palette, ShieldCheck, Rocket, Smartphone } from "lucide-react";
 
 export default function Services() {
   const services = [
     {
-      title: "Web Development",
+      title: "Web & Mobile App Development",
       description:
-        "We craft scalable, secure, and high-performance web solutions that drive business growth and customer engagement.",
-      icon: <Code className="w-10 h-10 text-blue-500" />,
+        "We design and develop responsive, high-performance web and mobile applications tailored to meet your unique business goals and deliver seamless user experiences.",
+      icon: <Smartphone className="w-10 h-10 text-indigo-500" />,
     },
     {
       title: "UI/UX Design",
       description:
-        "Our design team delivers stunning, user-centered interfaces that combine creativity with functionality for seamless experiences.",
+        "Our creative design team builds visually stunning and user-focused interfaces that merge innovation with functionality, ensuring every click feels effortless.",
       icon: <Palette className="w-10 h-10 text-pink-500" />,
     },
     {
       title: "Cybersecurity",
       description:
-        "We safeguard businesses with advanced cybersecurity solutions, ensuring protection against evolving digital threats.",
+        "We provide end-to-end cybersecurity solutions, from penetration testing to secure authentication, keeping your systems safe from modern digital threats.",
       icon: <ShieldCheck className="w-10 h-10 text-green-500" />,
     },
     {
       title: "Startup Acceleration",
       description:
-        "From MVP development to branding and market strategy, we help startups launch fast and scale sustainably.",
+        "From MVP development to branding and launch strategies, we help startups build solid foundations, scale fast, and make an impact in their industries.",
       icon: <Rocket className="w-10 h-10 text-purple-500" />,
+    },
+    {
+      title: "Custom Web Solutions",
+      description:
+        "We build scalable, data-driven web platforms and tools that enhance productivity, automate processes, and unlock growth opportunities for your business.",
+      icon: <Code className="w-10 h-10 text-blue-500" />,
     },
   ];
 
@@ -37,11 +43,11 @@ export default function Services() {
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-12">
           At <span className="font-semibold text-gray-900">GhunaGhost Tech Ltd</span>, 
-          we provide cutting-edge technology solutions to empower individuals, startups, 
-          and enterprises to thrive in the digital era.
+          we deliver modern, secure, and intelligent technology solutions designed 
+          to help businesses, startups, and individuals excel in a fast-changing digital world.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <div
               key={index}
