@@ -35,6 +35,14 @@ const projects = [
     link: "https://endoexo.vercel.app",
     image: "endoexo.png",
   },
+  {
+    title: "Orphans Website",
+    description:
+      "A clean and modern website for a non-profit organization supporting orphans with donation features.",
+    tech: ["html", "bootstrap", "php", "mysql", "paystack"],
+    link: "https://orphanseducationfoundation2025.org",
+    image: "orphans.png",
+  },
 ];
 
 export default function Projects() {
