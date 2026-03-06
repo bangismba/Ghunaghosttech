@@ -1,6 +1,6 @@
 // src/components/Founder.tsx
 import { motion } from "framer-motion";
-import profile from "../assets/img/profile.jpg";
+import profile from "../assets/img/ceo.jpeg";
 
 export default function Founder() {
   return (

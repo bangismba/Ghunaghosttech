@@ -51,8 +51,8 @@ export default function Navbar() {
           className="pointer-events-none absolute inset-0 opacity-90"
           style={{
             background:
-              "radial-gradient(700px 120px at 30% 0%, rgba(122, 92, 255, 0.29), transparent 60%), radial-gradient(700px 120px at 70% 0%, rgba(25,230,255,.18), transparent 60%)",
-            filter: "blur(10px)",
+              "blue",
+            filter: "blur(30px)",
           }}
         />
 

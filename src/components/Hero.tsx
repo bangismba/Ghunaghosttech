@@ -248,27 +248,6 @@ export default function Hero() {
       </div>
 
       {/* =========================
-          Scroll indicator
-          ========================= */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={
-          reduceMotion
-            ? { opacity: 1 }
-            : { opacity: 1, y: [0, 10, 0] }
-        }
-        transition={
-          reduceMotion
-            ? { duration: 0.6, delay: 0.6 }
-            : { delay: 1.8, duration: 2, repeat: Infinity }
-        }
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center text-white/65"
-      >
-        <ArrowDown className="h-6 w-6" />
-        <span className="mt-1 text-xs tracking-widest">SCROLL</span>
-      </motion.div>
-
-      {/* =========================
           Video Modal (local MP4)
           ========================= */}
       {videoOpen && (
