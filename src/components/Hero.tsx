@@ -1,7 +1,7 @@
 // src/components/Hero.tsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowDown, Play, X } from "lucide-react";
+import { Play, X } from "lucide-react";
 import ghunaghostLogo from "../assets/img/ghunaghostlogo.png";
 import introVideo from "../assets/img/intro.mp4";
 
@@ -70,32 +70,6 @@ export default function Hero() {
       className="relative min-h-screen overflow-hidden bg-black text-white"
       aria-label="Hero section"
     >
-      {/* =========================
-          Cinematic background video
-          ========================= */}
-      <div className="absolute inset-0">
-        <motion.video
-          ref={videoRef}
-          autoPlay={!reduceMotion}
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 h-full w-full object-cover"
-          initial={reduceMotion ? { opacity: 1 } : { opacity: 0, filter: "blur(12px)" }}
-          animate={reduceMotion ? { opacity: 1 } : { opacity: 1, filter: "blur(0px)" }}
-          transition={{ duration: 1.6 }}
-        >
-          <source src={introVideo} type="video/mp4" />
-        </motion.video>
-
-        {/* Vignette + gradients for readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/35 to-black/85" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(59,130,246,0.22),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(34,211,238,0.18),transparent_45%),radial-gradient(circle_at_55%_80%,rgba(168,85,247,0.18),transparent_55%)]" />
-        <div className="absolute inset-0 backdrop-blur-[2px]" />
-        {/* Subtle film grain */}
-        <div className="absolute inset-0 opacity-[0.08] mix-blend-overlay pointer-events-none [background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22180%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22180%22 height=%22180%22 filter=%22url(%23n)%22 opacity=%220.35%22/%3E%3C/svg%3E')]" />
-      </div>
 
       {/* =========================
           Content

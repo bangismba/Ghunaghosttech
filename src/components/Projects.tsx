@@ -6,16 +6,16 @@ const projects = [
   {
     title: "E-commerce Store (Afrah Collections)",
     description:
-      "A modern e-commerce store UI built with reusable components and responsive design.",
-    tech: ["React", "Tailwind", "Vite"],
+      "A modern e-commerce store with full payment integration and UI built with reusable components and responsive design.",
+    tech: ["Bootstrap", "PHP", "MYSQL" , "PAYSTACK"],
     link: "https://www.afrahcollections.com.ng",
     image: "afrah.png",
   },
   {
     title: "Trade Connect",
     description:
-      "A platform connecting traders and buyers, built with a focus on user experience and performance.",
-    tech: ["PHP", "Bootstrap"],
+      "A platform connecting tradesmen and Client who needs services, built with a focus on user experience and performance.",
+    tech: ["PHP", "Bootstrap", "PAYSTACK"],
     link: "#",
     image: "tradeconnect.png",
   },
@@ -23,14 +23,14 @@ const projects = [
     title: "Senator AA Yari",
     description:
       "A profile and campaign website for a Nigerian politician, optimized for speed and engagement.",
-    tech: ["React", "Tailwind", "Vite"],
+    tech: ["PHP", "Bootstrap", ],
     link: "https://www.senatoraayari.com",
     image: "aayari.png",
   },
   {
     title: "Endoexo Website",
     description:
-      "A clean and modern profile campaign website built with React and Vite.",
+      "A clean and modern platform for IP Tokenization, Transforming intellectual property into a transparent, liquid, and accessible asset class through blockchain, AI, and Real-World Asset tokenisation.",
     tech: ["React", "Tailwind", "Vite"],
     link: "https://endoexo.vercel.app",
     image: "endoexo.png",
