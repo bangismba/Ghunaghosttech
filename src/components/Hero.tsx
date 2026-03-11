@@ -1,6 +1,6 @@
 // src/components/Hero.tsx
-import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Play, X } from "lucide-react";
 import ghunaghostLogo from "../assets/img/ghunaghostlogo.png";
 import introVideo from "../assets/img/intro.mp4";
@@ -10,18 +10,15 @@ export default function Hero() {
   const [videoOpen, setVideoOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  // If user prefers reduced motion, avoid autoplay video (still shows poster-like frame)
   useEffect(() => {
     if (!videoRef.current) return;
     if (reduceMotion) {
       videoRef.current.pause();
     } else {
-      // try autoplay
       videoRef.current.play().catch(() => {});
     }
   }, [reduceMotion]);
 
-  // lock scroll when modal open
   useEffect(() => {
     if (!videoOpen) return;
     const prev = document.body.style.overflow;
@@ -31,7 +28,6 @@ export default function Hero() {
     };
   }, [videoOpen]);
 
-  // ESC closes modal
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setVideoOpen(false);
@@ -40,29 +36,29 @@ export default function Hero() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  const container = useMemo(
-    () => ({
-      hidden: { opacity: 0 },
-      show: {
-        opacity: 1,
-        transition: { staggerChildren: 0.12, delayChildren: 0.15 },
+  const container: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.15,
       },
-    }),
-    []
-  );
+    },
+  };
 
-  const item = useMemo(
-    () => ({
-      hidden: { opacity: 0, y: 14, filter: "blur(6px)" },
-      show: {
-        opacity: 1,
-        y: 0,
-        filter: "blur(0px)",
-        transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+  const item: Variants = {
+    hidden: { opacity: 0, y: 14, filter: "blur(6px)" },
+    show: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.7,
+        ease: [0.22, 1, 0.36, 1] as const,
       },
-    }),
-    []
-  );
+    },
+  };
 
   return (
     <section
@@ -70,18 +66,13 @@ export default function Hero() {
       className="relative min-h-screen overflow-hidden bg-black text-white"
       aria-label="Hero section"
     >
-
-      {/* =========================
-          Content
-          ========================= */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center px-6 md:px-12 py-24">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center px-6 py-24 md:px-12">
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
           className="grid w-full grid-cols-1 items-center gap-12 md:grid-cols-12"
         >
-          {/* ===== Left (brand) ===== */}
           <motion.div variants={item} className="md:col-span-5">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/80 backdrop-blur-md">
               <span className="inline-block h-2 w-2 rounded-full bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 shadow-[0_0_18px_rgba(56,189,248,.35)]" />
@@ -90,7 +81,6 @@ export default function Hero() {
 
             <div className="mt-7">
               <div className="relative inline-block">
-                {/* Glow halo */}
                 <motion.div
                   aria-hidden="true"
                   className="absolute -inset-8 rounded-full blur-3xl"
@@ -125,7 +115,6 @@ export default function Hero() {
               </p>
             </div>
 
-            {/* Mini trust pills */}
             <motion.div
               variants={item}
               className="mt-7 flex flex-wrap gap-2"
@@ -142,11 +131,10 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* ===== Right (headline + CTA) ===== */}
           <motion.div variants={item} className="md:col-span-7 md:pl-6">
             <h1 className="text-3xl font-extrabold leading-tight tracking-tight drop-shadow-md sm:text-5xl md:text-6xl">
               Welcome to{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400">
+              <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 bg-clip-text text-transparent">
                 Ghunaghost Tech Ltd
               </span>
             </h1>
@@ -159,7 +147,6 @@ export default function Hero() {
               <span className="font-medium text-cyan-300">digital experiences</span>.
             </p>
 
-            {/* CTA row */}
             <motion.div
               variants={item}
               className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
@@ -197,7 +184,6 @@ export default function Hero() {
               </motion.button>
             </motion.div>
 
-            {/* Glass stats cards */}
             <motion.div
               variants={item}
               className="mt-10 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3"
@@ -221,9 +207,6 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* =========================
-          Video Modal (local MP4)
-          ========================= */}
       {videoOpen && (
         <>
           <div
@@ -254,12 +237,7 @@ export default function Hero() {
               </div>
 
               <div className="relative">
-                <video
-                  controls
-                  autoPlay
-                  className="w-full"
-                  src={introVideo}
-                />
+                <video controls autoPlay className="w-full" src={introVideo} />
               </div>
 
               <div className="border-t border-white/10 px-4 py-3">
