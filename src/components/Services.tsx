@@ -1,12 +1,11 @@
-// src/components/Services.tsx
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 import {
   Code,
   Palette,
   ShieldCheck,
   Rocket,
   Smartphone,
-} from "lucide-react";
+} from 'lucide-react';
 
 const services = [
   {
@@ -14,120 +13,182 @@ const services = [
     description:
       "We build fast, scalable web platforms and mobile applications that combine modern architecture with intuitive user experiences.",
     icon: Smartphone,
-    gradient: "from-blue-500 to-cyan-400",
+    tech: ["REACT", "NEXT.JS", "NATIVE", "NODE"],
+    category: "DEVELOPMENT",
   },
   {
     title: "UI / UX Design",
     description:
       "We craft visually refined and user-centered interfaces that transform complex ideas into simple, elegant digital experiences.",
     icon: Palette,
-    gradient: "from-pink-500 to-purple-400",
+    tech: ["FIGMA", "ADOBE XD", "PROTOTYPING"],
+    category: "DESIGN",
   },
   {
     title: "Cybersecurity",
     description:
       "From vulnerability assessments to secure authentication systems, we help protect businesses against modern cyber threats.",
     icon: ShieldCheck,
-    gradient: "from-emerald-500 to-green-400",
+    tech: ["PEN TESTING", "AUTH", "MONITORING"],
+    category: "SECURITY",
   },
   {
     title: "Startup Acceleration",
     description:
       "We help startups turn ideas into real products by building MVPs, refining product strategy, and preparing them for market growth.",
     icon: Rocket,
-    gradient: "from-purple-500 to-indigo-400",
+    tech: ["MVP", "STRATEGY", "SCALING"],
+    category: "CONSULTING",
   },
   {
     title: "Custom Web Platforms",
     description:
       "We develop advanced web solutions, dashboards, and digital platforms designed to automate processes and scale business operations.",
     icon: Code,
-    gradient: "from-cyan-500 to-blue-400",
+    tech: ["DASHBOARDS", "APIs", "AUTOMATION"],
+    category: "PLATFORMS",
   },
 ];
 
 export default function Services() {
   return (
-    <section
-      id="services"
-      className="relative w-full overflow-hidden bg-[linear-gradient(180deg,#070b14_0%,#0b1220_100%)] px-6 py-24 text-white"
-    >
-      {/* Background glow effects */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[12%] top-[12%] h-72 w-72 rounded-full bg-blue-500/10 blur-3xl" />
-        <div className="absolute right-[10%] top-[20%] h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
-        <div className="absolute bottom-[8%] left-[35%] h-72 w-72 rounded-full bg-purple-500/10 blur-3xl" />
+    <section id="services" className="relative overflow-hidden bg-[#080808] text-white">
+      <div className="border-y border-white/10">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-5 md:px-8">
+          <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+            <span>§06</span>
+            <span className="h-px w-8 bg-white/20" />
+            <span>OUR SERVICES</span>
+          </div>
+          <span className="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600 sm:block">
+            {services.length.toString().padStart(2, "0")} SERVICES / EXPERTISE
+          </span>
+        </div>
       </div>
 
-      <div className="relative mx-auto max-w-7xl">
-        {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-14"
-        >
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 backdrop-blur-md">
-            <span className="h-2 w-2 rounded-full bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 shadow-[0_0_18px_rgba(56,189,248,.35)]"></span>
-            Our Expertise
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
-            What We{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 bg-clip-text text-transparent">
-              Offer
+      <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-8 md:py-28">
+        <div className="grid lg:grid-cols-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-4"
+          >
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">
+              CAPABILITIES
             </span>
-          </h2>
+            <h2 className="mt-8 text-5xl font-medium leading-[0.92] tracking-[-0.05em] sm:text-6xl md:text-7xl">
+              WHAT WE
+              <br />
+              <span className="text-zinc-500">DELIVER.</span>
+              <br />
+              EVERY DAY.
+            </h2>
+          </motion.div>
 
-          <p className="mt-5 max-w-3xl mx-auto text-white/70 text-lg leading-relaxed">
-            At <span className="font-semibold text-white">Ghunaghost Tech Ltd</span>,
-            we deliver intelligent digital solutions designed to help
-            startups, businesses, and organizations succeed in an
-            increasingly technology-driven world.
-          </p>
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.65, delay: 0.1 }}
+            className="mt-10 lg:col-span-7 lg:col-start-6 lg:mt-0"
+          >
+            <p className="max-w-2xl text-xl leading-relaxed text-zinc-300 sm:text-2xl">
+              From code to strategy, we design and build technology solutions that move businesses forward.
+            </p>
+            <p className="mt-6 max-w-xl text-sm leading-7 text-zinc-500 sm:text-base">
+              Our expertise spans the full spectrum of digital innovation — 
+              engineering, design, security, and strategy. Every service is delivered with 
+              the same technical rigor and attention to detail.
+            </p>
+          </motion.div>
+        </div>
+      </div>
 
-        {/* Services grid */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mx-auto max-w-[1600px] px-5 pb-20 md:px-8 md:pb-28">
+        <div className="border border-white/10">
           {services.map((service, index) => {
             const Icon = service.icon;
-
             return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40, filter: "blur(6px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: index * 0.1 }}
-                className="group relative rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl shadow-[0_18px_50px_rgba(0,0,0,0.28)] hover:-translate-y-2 hover:border-white/20 hover:shadow-[0_28px_80px_rgba(0,0,0,0.5)] transition duration-300"
+              <motion.article
+                key={service.title}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.55, delay: index * 0.06 }}
+                className="group border-b border-white/10 last:border-b-0"
               >
-                {/* Top gradient line */}
-                <div
-                  className={`absolute top-0 left-0 right-0 h-1 rounded-t-3xl bg-gradient-to-r ${service.gradient}`}
-                />
+                <div className="grid lg:grid-cols-12">
+                  <div className="flex min-h-[70px] items-center border-b border-white/10 px-5 lg:col-span-1 lg:border-r lg:border-b-0 md:px-6">
+                    <span className="font-mono text-[10px] text-zinc-600">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
 
-                {/* Icon */}
-                <div className="mb-5">
-                  <div
-                    className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${service.gradient}`}
-                  >
-                    <Icon className="w-7 h-7 text-white" />
+                  <div className="relative min-h-[200px] overflow-hidden border-b border-white/10 lg:col-span-4 lg:border-r lg:border-b-0 md:min-h-[240px]">
+                    <div className="flex h-full w-full items-center justify-center bg-zinc-900/50 transition duration-700 ease-out group-hover:bg-zinc-800/50">
+                      <Icon className="h-20 w-20 text-zinc-600 transition duration-700 ease-out group-hover:scale-110 group-hover:text-zinc-400" />
+                    </div>
+                    <div className="absolute left-5 top-5 border border-white/20 bg-black/70 px-3 py-2 font-mono text-[9px] uppercase tracking-[0.15em] text-zinc-300 backdrop-blur-sm">
+                      {service.category}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col justify-between p-6 lg:col-span-7 md:p-10">
+                    <div>
+                      <div className="flex items-start justify-between gap-6">
+                        <div>
+                          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">
+                            SERVICE / {String(index + 1).padStart(2, "0")}
+                          </span>
+                          <h3 className="mt-5 text-2xl font-medium tracking-[-0.03em] text-white sm:text-3xl md:text-4xl">
+                            {service.title}
+                          </h3>
+                        </div>
+                        <span className="hidden font-mono text-xs text-zinc-700 sm:block">→</span>
+                      </div>
+                      <p className="mt-6 max-w-2xl text-sm leading-7 text-zinc-500 sm:text-base">
+                        {service.description}
+                      </p>
+                    </div>
+
+                    <div className="mt-12 border-t border-white/10 pt-5">
+                      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+                        <div>
+                          <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-600">
+                            TECHNOLOGIES & METHODS
+                          </span>
+                          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+                            {service.tech.map((tech) => (
+                              <span key={tech} className="font-mono text-[10px] uppercase tracking-wider text-zinc-400">
+                                [{tech}]
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3 border border-white/10 px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-zinc-500 transition group-hover:border-white/30">
+                          <span>LEARN MORE</span>
+                          <span className="transition-transform group-hover:translate-x-1">→</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-
-                {/* Title */}
-                <h3 className="text-xl font-bold mb-3">
-                  {service.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-white/70 leading-relaxed text-sm">
-                  {service.description}
-                </p>
-              </motion.div>
+              </motion.article>
             );
           })}
+        </div>
+      </div>
+
+      <div className="border-t border-white/10">
+        <div className="mx-auto flex max-w-[1600px] flex-col justify-between gap-4 px-5 py-6 md:flex-row md:items-center md:px-8">
+          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600">
+            FULL SERVICE ARCHIVE
+          </div>
+          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600">
+            {services.length} CORE CAPABILITIES / READY
+          </div>
         </div>
       </div>
     </section>

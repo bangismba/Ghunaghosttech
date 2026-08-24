@@ -1,0 +1,4 @@
+// Placeholder images - replace with your actual images
+export const ceoImage = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%2318181b"/%3E%3Ctext x="200" y="180" font-family="monospace" font-size="24" fill="%2371717a" text-anchor="middle"%3EALIYU%3C/text%3E%3Ctext x="200" y="220" font-family="monospace" font-size="16" fill="%2352525b" text-anchor="middle"%3EM. BABANGIDA%3C/text%3E%3C/svg%3E';
+
+export const logoImage = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"%3E%3Crect width="200" height="200" fill="%2318181b"/%3E%3Ctext x="100" y="100" font-family="monospace" font-size="32" fill="%23ffffff" text-anchor="middle" dy=".3em"%3EGH%3C/text%3E%3Ctext x="100" y="130" font-family="monospace" font-size="10" fill="%2371717a" text-anchor="middle"%3EGHUNAGHOST%3C/text%3E%3C/svg%3E';

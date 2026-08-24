@@ -1,37 +1,60 @@
 // src/components/About.tsx
-import { motion } from "framer-motion";
-import { ShieldCheck, Code2, GraduationCap, Cloud, Briefcase } from "lucide-react";
 
-const tags = [
+import { motion } from "framer-motion";
+import {
+  ShieldCheck,
+  Code2,
+  GraduationCap,
+  Cloud,
+  Briefcase,
+} from "lucide-react";
+
+const capabilities = [
   {
-    label: "Web Development",
+    id: "01",
+    label: "WEB DEVELOPMENT",
     icon: Code2,
-    className:
-      "border-blue-400/20 bg-blue-500/10 text-blue-200",
   },
   {
-    label: "Cybersecurity",
+    id: "02",
+    label: "CYBER SECURITY",
     icon: ShieldCheck,
-    className:
-      "border-emerald-400/20 bg-emerald-500/10 text-emerald-200",
   },
   {
-    label: "Tech Education",
+    id: "03",
+    label: "TECH EDUCATION",
     icon: GraduationCap,
-    className:
-      "border-purple-400/20 bg-purple-500/10 text-purple-200",
   },
   {
-    label: "IT Consulting",
+    id: "04",
+    label: "IT CONSULTING",
     icon: Briefcase,
-    className:
-      "border-amber-400/20 bg-amber-500/10 text-amber-200",
   },
   {
-    label: "Cloud Solutions",
+    id: "05",
+    label: "CLOUD SOLUTIONS",
     icon: Cloud,
-    className:
-      "border-cyan-400/20 bg-cyan-500/10 text-cyan-200",
+  },
+];
+
+const principles = [
+  {
+    id: "01",
+    title: "OUR VISION",
+    description:
+      "To be a trusted African technology brand known for building secure, innovative, and human-centered digital experiences.",
+  },
+  {
+    id: "02",
+    title: "OUR MISSION",
+    description:
+      "To empower businesses and communities with reliable technology solutions that combine performance, usability, and security.",
+  },
+  {
+    id: "03",
+    title: "OUR APPROACH",
+    description:
+      "We combine strategy, clean UI, modern engineering, and practical problem-solving to deliver solutions that feel premium and work in the real world.",
   },
 ];
 
@@ -39,128 +62,345 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative w-full overflow-hidden bg-[linear-gradient(180deg,#070b14_0%,#0b1220_100%)] px-6 py-24 text-white"
+      className="relative overflow-hidden bg-[#080808] text-white"
     >
-      {/* Background effects */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[10%] top-[12%] h-72 w-72 rounded-full bg-blue-500/10 blur-3xl" />
-        <div className="absolute right-[8%] top-[20%] h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
-        <div className="absolute bottom-[5%] left-[35%] h-72 w-72 rounded-full bg-purple-500/10 blur-3xl" />
-      </div>
+      {/* ================================
+          SECTION HEADER
+      ================================= */}
 
-      <div className="relative z-10 mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7 }}
-          className="mx-auto max-w-4xl text-center"
-        >
-          {/* Kicker */}
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 backdrop-blur-md">
-            <span className="inline-block h-2 w-2 rounded-full bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 shadow-[0_0_18px_rgba(56,189,248,.35)]" />
-            Who We Are
+      <div className="border-y border-white/10">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-5 md:px-8">
+
+          <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+            <span>§03</span>
+
+            <span className="h-px w-8 bg-white/20" />
+
+            <span>ABOUT THE SYSTEM</span>
           </div>
 
-          {/* Heading */}
-          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
-            About{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 bg-clip-text text-transparent">
-              Ghunaghost Tech Ltd
-            </span>
-          </h2>
+          <span className="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600 sm:block">
+            GHUNAGHOST / 2026
+          </span>
 
-          {/* Main description */}
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-white/72 sm:text-lg">
-            At{" "}
-            <span className="font-semibold text-white">
-              Ghunaghost Tech Ltd
-            </span>
-            , we build modern digital solutions that help individuals,
-            businesses, and institutions grow with confidence in a fast-changing
-            world. Our work combines{" "}
-            <span className="font-medium text-cyan-300">design</span>,{" "}
-            <span className="font-medium text-cyan-300">development</span>, and{" "}
-            <span className="font-medium text-cyan-300">security</span> to turn
-            ideas into products that are practical, scalable, and impactful.
-          </p>
+        </div>
+      </div>
 
-          <p className="mx-auto mt-4 max-w-3xl text-base leading-8 text-white/65 sm:text-lg">
-            From web platforms and business tools to cybersecurity awareness,
-            tech education, consulting, and cloud-driven systems, our mission is
-            simple: to create technology that is not only functional, but also
-            secure, user-focused, and built for long-term value.
-          </p>
-        </motion.div>
+      {/* ================================
+          MAIN CONTENT
+      ================================= */}
 
-        {/* Glass content cards */}
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
-          <motion.div
-            initial={{ opacity: 0, y: 28, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7, delay: 0.05 }}
-            className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.28)] backdrop-blur-xl"
-          >
-            <h3 className="text-lg font-bold text-white">Our Vision</h3>
-            <p className="mt-3 text-sm leading-7 text-white/70">
-              To be a trusted African technology brand known for building
-              secure, innovative, and human-centered digital experiences.
-            </p>
-          </motion.div>
+      <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-8 md:py-28">
+
+        <div className="grid border border-white/10 lg:grid-cols-12">
+
+          {/* ============================
+              LEFT LABEL PANEL
+          ============================ */}
 
           <motion.div
-            initial={{ opacity: 0, y: 28, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7, delay: 0.12 }}
-            className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.28)] backdrop-blur-xl"
+            transition={{ duration: 0.6 }}
+            className="border-b border-white/10 p-6 lg:col-span-4 lg:border-r lg:border-b-0 md:p-10"
           >
-            <h3 className="text-lg font-bold text-white">Our Mission</h3>
-            <p className="mt-3 text-sm leading-7 text-white/70">
-              To empower businesses and communities with reliable technology
-              solutions that combine performance, usability, and security.
-            </p>
+
+            <div className="flex h-full flex-col justify-between">
+
+              <div>
+
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">
+                  COMPANY PROFILE
+                </span>
+
+                <h2 className="mt-8 text-4xl font-medium leading-[0.95] tracking-[-0.04em] sm:text-5xl md:text-6xl">
+                  BUILT FOR
+                  <br />
+
+                  <span className="text-zinc-500">
+                    THE NEXT
+                  </span>
+
+                  <br />
+
+                  SYSTEM.
+                </h2>
+
+              </div>
+
+              <div className="mt-16 border-t border-white/10 pt-5">
+
+                <p className="max-w-xs font-mono text-[10px] uppercase leading-relaxed tracking-[0.15em] text-zinc-600">
+                  DESIGNING THE TECHNOLOGY,
+                  SYSTEMS AND EXPERIENCES
+                  THAT MOVE IDEAS FORWARD.
+                </p>
+
+              </div>
+
+            </div>
+
           </motion.div>
 
+          {/* ============================
+              RIGHT CONTENT
+          ============================ */}
+
           <motion.div
-            initial={{ opacity: 0, y: 28, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.28)] backdrop-blur-xl"
+            transition={{ duration: 0.65, delay: 0.1 }}
+            className="lg:col-span-8"
           >
-            <h3 className="text-lg font-bold text-white">Our Approach</h3>
-            <p className="mt-3 text-sm leading-7 text-white/70">
-              We combine strategy, clean UI, modern engineering, and practical
-              problem-solving to deliver solutions that feel premium and work in
-              the real world.
-            </p>
+
+            <div className="border-b border-white/10 px-6 py-5 md:px-10">
+
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+                WHO WE ARE
+              </span>
+
+            </div>
+
+            <div className="px-6 py-10 md:px-10 md:py-14">
+
+              <p className="max-w-3xl text-xl leading-relaxed text-zinc-300 sm:text-2xl">
+
+                Ghunaghost Tech Ltd builds modern digital
+                solutions that help individuals, businesses and
+                institutions grow with confidence in a
+                fast-changing world.
+
+              </p>
+
+              <div className="mt-10 max-w-3xl space-y-6 text-base leading-8 text-zinc-500 sm:text-lg">
+
+                <p>
+                  Our work combines{" "}
+
+                  <span className="text-white">
+                    design
+                  </span>
+
+                  ,{" "}
+
+                  <span className="text-white">
+                    development
+                  </span>
+
+                  {" "}and{" "}
+
+                  <span className="text-white">
+                    security
+                  </span>
+
+                  {" "}to turn ideas into products that are
+                  practical, scalable and built for impact.
+                </p>
+
+                <p>
+                  From web platforms and business tools to
+                  cybersecurity awareness, technology education,
+                  consulting and cloud-driven systems, our mission
+                  is simple: create technology that is functional,
+                  secure, user-focused and built for long-term value.
+                </p>
+
+              </div>
+
+            </div>
+
+            {/* SYSTEM IDENTIFIER */}
+
+            <div className="grid border-t border-white/10 sm:grid-cols-3">
+
+              <div className="border-b border-white/10 p-6 sm:border-r sm:border-b-0 md:p-8">
+
+                <span className="font-mono text-[10px] text-zinc-600">
+                  ID
+                </span>
+
+                <p className="mt-3 font-mono text-xs uppercase tracking-wider text-zinc-300">
+                  GHUNAGHOST TECH LTD
+                </p>
+
+              </div>
+
+              <div className="border-b border-white/10 p-6 sm:border-r sm:border-b-0 md:p-8">
+
+                <span className="font-mono text-[10px] text-zinc-600">
+                  TYPE
+                </span>
+
+                <p className="mt-3 font-mono text-xs uppercase tracking-wider text-zinc-300">
+                  DIGITAL TECHNOLOGY
+                </p>
+
+              </div>
+
+              <div className="p-6 md:p-8">
+
+                <span className="font-mono text-[10px] text-zinc-600">
+                  STATUS
+                </span>
+
+                <p className="mt-3 font-mono text-xs uppercase tracking-wider text-zinc-300">
+                  ACTIVE / BUILDING
+                </p>
+
+              </div>
+
+            </div>
+
           </motion.div>
+
         </div>
 
-        {/* Expertise tags */}
-        <motion.div
-          initial={{ opacity: 0, y: 28, filter: "blur(6px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.75, delay: 0.15 }}
-          className="mt-12 flex flex-wrap justify-center gap-3"
-        >
-          {tags.map((tag) => {
-            const Icon = tag.icon;
-            return (
-              <span
-                key={tag.label}
-                className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold shadow-[0_10px_30px_rgba(0,0,0,0.16)] backdrop-blur-md ${tag.className}`}
-              >
-                <Icon className="h-4 w-4" />
-                {tag.label}
-              </span>
-            );
-          })}
-        </motion.div>
       </div>
+
+      {/* ================================
+          PRINCIPLES
+      ================================= */}
+
+      <div className="mx-auto max-w-[1600px] px-5 pb-20 md:px-8 md:pb-28">
+
+        <div className="mb-6 flex items-center gap-3">
+
+          <span className="font-mono text-[10px] text-zinc-600">
+            03.01
+          </span>
+
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+            CORE PRINCIPLES
+          </span>
+
+        </div>
+
+        <div className="grid border border-white/10 lg:grid-cols-3">
+
+          {principles.map((principle, index) => (
+
+            <motion.div
+              key={principle.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.08,
+              }}
+              className={`group min-h-[280px] p-6 transition hover:bg-white/[0.025] md:p-8 ${
+                index !== principles.length - 1
+                  ? "border-b border-white/10 lg:border-r lg:border-b-0"
+                  : ""
+              }`}
+            >
+
+              <div className="flex items-center justify-between">
+
+                <span className="font-mono text-[10px] text-zinc-600">
+                  {principle.id}
+                </span>
+
+                <span className="text-zinc-700 transition group-hover:text-white">
+                  ↗
+                </span>
+
+              </div>
+
+              <div className="mt-16">
+
+                <h3 className="font-mono text-sm uppercase tracking-wider text-white">
+                  {principle.title}
+                </h3>
+
+                <p className="mt-5 max-w-sm text-sm leading-7 text-zinc-500">
+                  {principle.description}
+                </p>
+
+              </div>
+
+            </motion.div>
+
+          ))}
+
+        </div>
+
+      </div>
+
+      {/* ================================
+          CAPABILITIES
+      ================================= */}
+
+      <div className="border-t border-white/10">
+
+        <div className="mx-auto max-w-[1600px] px-5 py-16 md:px-8 md:py-20">
+
+          <div className="mb-8 flex items-center justify-between">
+
+            <div className="flex items-center gap-3">
+
+              <span className="font-mono text-[10px] text-zinc-600">
+                03.02
+              </span>
+
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+                CAPABILITIES
+              </span>
+
+            </div>
+
+            <span className="font-mono text-[10px] text-zinc-600">
+              {capabilities.length.toString().padStart(2, "0")} MODULES
+            </span>
+
+          </div>
+
+          <div className="border border-white/10">
+
+            {capabilities.map((capability) => {
+
+              const Icon = capability.icon;
+
+              return (
+                <motion.div
+                  key={capability.id}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ duration: 0.45 }}
+                  className="group flex items-center justify-between border-b border-white/10 px-5 py-5 last:border-b-0 transition hover:bg-white/[0.03] md:px-8"
+                >
+
+                  <div className="flex items-center gap-5">
+
+                    <span className="w-6 font-mono text-[10px] text-zinc-600">
+                      {capability.id}
+                    </span>
+
+                    <Icon className="h-4 w-4 text-zinc-500 transition group-hover:text-white" />
+
+                    <span className="font-mono text-xs uppercase tracking-wider text-zinc-300">
+                      {capability.label}
+                    </span>
+
+                  </div>
+
+                  <span className="font-mono text-xs text-zinc-700 transition group-hover:translate-x-1 group-hover:text-white">
+                    →
+                  </span>
+
+                </motion.div>
+              );
+            })}
+
+          </div>
+
+        </div>
+
+      </div>
+
     </section>
   );
 }
