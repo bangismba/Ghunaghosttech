@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getProjects, getAllProjects, addProject, updateProject, deleteProject } from '@lib/firebase/projects';
+import { getAllProjects, addProject, updateProject, deleteProject } from '@lib/firebase/projects';
 import { Project } from '@types';
 import { Save, X, Edit, Trash2, Plus } from 'lucide-react';
 

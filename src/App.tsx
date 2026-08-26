@@ -12,11 +12,13 @@ import MessagesInbox from '@components/dashboard/MessagesInbox';
 import AdminLogin from '@components/dashboard/AdminLogin';
 
 function App() {
+  console.log('✅ App rendering with all components');
+  
   return (
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={
-        <main>
+        <main className="min-h-screen bg-[#080808]">
           <Navbar />
           <Hero />
           <Projects />
@@ -28,13 +30,12 @@ function App() {
       } />
       
       {/* Admin Routes */}
+      <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin" element={<DashboardLayout />}>
         <Route index element={<ProjectsManager />} />
         <Route path="projects" element={<ProjectsManager />} />
         <Route path="messages" element={<MessagesInbox />} />
       </Route>
-      
-      <Route path="/admin/login" element={<AdminLogin />} />
     </Routes>
   );
 }

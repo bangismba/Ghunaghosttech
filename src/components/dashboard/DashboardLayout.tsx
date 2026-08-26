@@ -6,7 +6,8 @@ import {
   FolderGit, 
   MessageSquare, 
   LogOut,
-  Home
+  User,
+  Chrome
 } from 'lucide-react';
 
 export default function DashboardLayout() {
@@ -86,9 +87,26 @@ export default function DashboardLayout() {
         </nav>
 
         <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-white/10">
-          <p className="font-mono text-[8px] uppercase tracking-wider text-zinc-600 truncate">
-            {user?.email}
-          </p>
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-full border border-white/10 flex items-center justify-center bg-white/5">
+              {user?.photoURL ? (
+                <img src={user.photoURL} alt="Avatar" className="h-8 w-8 rounded-full" />
+              ) : (
+                <User className="h-4 w-4 text-zinc-500" />
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-mono text-xs truncate text-zinc-300">
+                {user?.displayName || user?.email || 'Admin'}
+              </p>
+              <p className="font-mono text-[8px] uppercase tracking-wider text-zinc-600">
+                {user?.providerData?.[0]?.providerId === 'google.com' ? 'Google' : 'Email'} Account
+              </p>
+            </div>
+            {user?.providerData?.[0]?.providerId === 'google.com' && (
+              <Chrome className="h-3 w-3 text-zinc-600" />
+            )}
+          </div>
         </div>
       </aside>
 

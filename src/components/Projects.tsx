@@ -151,7 +151,7 @@ export default function Projects() {
                           TECHNOLOGY STACK
                         </span>
                         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
-                          {project.tech.map((tech) => (
+                          {project.tech.map((tech: string) => (
                             <span key={tech} className="font-mono text-[10px] uppercase tracking-wider text-zinc-400">
                               [{tech}]
                             </span>
