@@ -5,9 +5,7 @@ import {
   User,
   GoogleAuthProvider,
   signInWithPopup,
-  sendPasswordResetEmail,
-  browserLocalPersistence,
-  setPersistence
+  sendPasswordResetEmail
 } from 'firebase/auth';
 import { auth } from './config';
 

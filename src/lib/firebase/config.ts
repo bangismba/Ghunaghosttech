@@ -1,22 +1,21 @@
-import { initializeApp, getApps } from 'firebase/app';
-import { getAuth, browserLocalPersistence, setPersistence, connectAuthEmulator } from 'firebase/auth';
-import { getFirestore, enableIndexedDbPersistence, connectFirestoreEmulator } from 'firebase/firestore';
+import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
+import { getAuth, browserLocalPersistence, setPersistence, Auth } from 'firebase/auth';
+import { getFirestore, enableIndexedDbPersistence, Firestore } from 'firebase/firestore';
+import { getStorage, FirebaseStorage } from 'firebase/storage';
 
-// Your Firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyCLOx6MRFvat25VGqhTAfsfIYlzhOdRkpk",
-  authDomain: "ghuna-5256f.firebaseapp.com",
-  projectId: "ghuna-5256f",
-  storageBucket: "ghuna-5256f.firebasestorage.app",
-  messagingSenderId: "784420755782",
-  appId: "1:784420755782:web:731dc355a92dc215c8ed47",
-  measurementId: "G-5KJQN15NWM"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
-let app;
-let auth;
-let db;
+let app: FirebaseApp;
+let auth: Auth;
+let db: Firestore;
+let storage: FirebaseStorage;
 
 try {
   if (!getApps().length) {
@@ -29,10 +28,11 @@ try {
 
   auth = getAuth(app);
   db = getFirestore(app);
+  storage = getStorage(app);
 
-  // Set persistence to LOCAL (keeps user logged in)
+  // Set persistence
   setPersistence(auth, browserLocalPersistence)
-    .then(() => console.log('✅ Auth persistence set to LOCAL'))
+    .then(() => console.log('✅ Auth persistence set'))
     .catch((err) => console.warn('⚠️ Persistence warning:', err));
 
   // Enable offline persistence for Firestore
@@ -46,7 +46,8 @@ try {
 
 } catch (error) {
   console.error('❌ Firebase initialization failed:', error);
+  throw error;
 }
 
-export { auth, db };
+export { auth, db, storage };
 export default app;

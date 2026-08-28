@@ -1,24 +1,21 @@
-// This service lists all images available in public/projects/
-
 export interface ImageFile {
   name: string;
   path: string;
   url: string;
-  size: number;
-  lastModified: number;
+  size?: number;
+  lastModified?: number;
 }
 
 // Get all images from the projects folder
 export const getAvailableImages = async (): Promise<ImageFile[]> => {
   try {
-    // In a real implementation, you'd have a backend API that lists files
-    // For now, we'll use a static list or fetch from a manifest
-    
-    // Option 1: Hardcoded list (you maintain this)
-    // You'd update this list whenever you add new images
-    const imageList = [
-      { name: 'logo1.png', path: '/projects/logo1.png', url: '/projects/logo1.png' },
+    // Update this list when you add new images to public/projects/
+    const imageList: ImageFile[] = [
       { name: 'ummita.png', path: '/projects/ummita.png', url: '/projects/ummita.png' },
+      { name: 'logo1.png', path: '/projects/logo1.png', url: '/projects/logo1.png' },
+      { name: 'logo2.png', path: '/projects/logo2.png', url: '/projects/logo2.png' },
+      { name: 'logo3.png', path: '/projects/logo3.png', url: '/projects/logo3.png' },
+      // Add your project images here
       { name: 'afrah.png', path: '/projects/afrah.png', url: '/projects/afrah.png' },
       { name: 'tradeconnect.png', path: '/projects/tradeconnect.png', url: '/projects/tradeconnect.png' },
       { name: 'aayari.png', path: '/projects/aayari.png', url: '/projects/aayari.png' },

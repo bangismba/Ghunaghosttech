@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { db } from '@lib/firebase/config';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 
 interface Project {
   id: string;
@@ -29,12 +29,16 @@ export default function Projects() {
         
         console.log('🔍 Fetching projects from Firebase...');
         
+        if (!db) {
+          throw new Error('Firebase not initialized');
+        }
+        
         const projectsRef = collection(db, 'projects');
         const snapshot = await getDocs(projectsRef);
         
         console.log('📦 Raw snapshot size:', snapshot.size);
         
-        const allProjects = snapshot.docs.map(doc => ({
+        const allProjects = snapshot.docs.map((doc: QueryDocumentSnapshot<DocumentData>) => ({
           id: doc.id,
           ...doc.data()
         })) as Project[];
@@ -178,14 +182,12 @@ export default function Projects() {
               className="group border-b border-white/10 last:border-b-0"
             >
               <div className="grid lg:grid-cols-12">
-                {/* Number */}
                 <div className="flex min-h-[70px] items-center border-b border-white/10 px-5 lg:col-span-1 lg:border-r lg:border-b-0 md:px-6">
                   <span className="font-mono text-[10px] text-zinc-600">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
 
-                {/* Image */}
                 <div className="relative min-h-[260px] overflow-hidden border-b border-white/10 lg:col-span-4 lg:border-r lg:border-b-0 md:min-h-[320px]">
                   {project.image ? (
                     <img
@@ -193,7 +195,6 @@ export default function Projects() {
                       alt={project.title}
                       className="h-full w-full object-cover grayscale transition duration-700 ease-out group-hover:scale-[1.03] group-hover:grayscale-0"
                       onError={(e) => {
-                        // Fallback if image doesn't load
                         const parent = e.currentTarget.parentElement;
                         if (parent) {
                           e.currentTarget.style.display = 'none';
@@ -220,7 +221,6 @@ export default function Projects() {
                   )}
                 </div>
 
-                {/* Content */}
                 <div className="flex flex-col justify-between p-6 lg:col-span-7 md:p-10">
                   <div>
                     <div className="flex items-start justify-between gap-6">
@@ -239,7 +239,6 @@ export default function Projects() {
                     </p>
                   </div>
 
-                  {/* Meta */}
                   <div className="mt-12 border-t border-white/10 pt-5">
                     <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                       <div>
@@ -279,7 +278,6 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Footer */}
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-[1600px] flex-col justify-between gap-4 px-5 py-6 md:flex-row md:items-center md:px-8">
           <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600">

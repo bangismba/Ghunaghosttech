@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { Sparkles, Shield, Zap, ArrowRight } from 'lucide-react';
 import { COMPANY_RC } from '@utils/constants';
 
 export default function Hero() {
@@ -12,19 +11,34 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_#080808_100%)]" />
       </div>
 
-      {/* Logo Watermark (subtle background) */}
+      {/* Logo Watermark */}
       <div className="absolute right-0 bottom-0 opacity-[0.04] pointer-events-none select-none">
         <img src="/logo1.png" alt="" className="w-[600px] h-[600px] object-contain" />
       </div>
 
-      <div className="relative w-full max-w-[1600px] mx-auto px-5 md:px-8 py-20">
+      <div className="relative w-full max-w-[1600px] mx-auto px-5 md:px-8 py-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="max-w-4xl"
         >
+          {/* Logo Badge */}
+          <div className="flex items-center gap-3 mb-8">
+            <img 
+              src="/logo1.png" 
+              alt="Ghunaghost Tech" 
+              className="h-10 w-10 object-contain"
+            />
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-zinc-500">
+              GHUNAGHOST TECH LTD
+            </span>
+          </div>
 
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#00d4ff]/30 bg-[#00d4ff]/10 text-[#00d4ff] text-xs font-mono mb-6">
+            Building Africa's Digital Future
+          </div>
 
           {/* Headline */}
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium leading-[0.92] tracking-[-0.05em]">

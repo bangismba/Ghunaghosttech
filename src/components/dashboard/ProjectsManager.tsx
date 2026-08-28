@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { getAllProjects, addProject, updateProject, deleteProject } from '@lib/firebase/projects';
-import { getImageOptions, selectImage, getImagePreview } from '@lib/local/imageUpload';
+import { getImageOptions, getImagePreview } from '@lib/local/imageUpload';
 import { Project } from '@types';
-import { Save, X, Edit, Trash2, Plus, Image as ImageIcon, ChevronDown } from 'lucide-react';
+import { Save, X, Edit, Trash2, Plus, ChevronDown } from 'lucide-react';
 
 export default function ProjectsManager() {
   const [projects, setProjects] = useState<Project[]>([]);

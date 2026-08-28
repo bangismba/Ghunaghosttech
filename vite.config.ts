@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      includeAssets: ['logo1.png', 'favicon.ico', 'apple-touch-icon.png'],
       manifest: {
         name: 'Ghunaghost Tech Ltd',
         short_name: 'Ghunaghost Tech',
@@ -20,23 +20,23 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: '/logo1.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'pwa-512x512.png',
+            src: '/logo1.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'pwa-512x512.png',
+            src: '/logo1.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any'
           },
           {
-            src: 'pwa-512x512.png',
+            src: '/logo1.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable'
@@ -44,6 +44,8 @@ export default defineConfig({
         ]
       },
       workbox: {
+        // Increase the file size limit to 5MB (from default 2MB)
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MB
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
         runtimeCaching: [
           {

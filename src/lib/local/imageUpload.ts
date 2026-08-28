@@ -29,7 +29,6 @@ export const selectImage = async (filename: string): Promise<ImageResult> => {
       };
     }
 
-    // Check if format is valid
     if (!isValidImageFormat(filename)) {
       return {
         success: false,
@@ -39,7 +38,6 @@ export const selectImage = async (filename: string): Promise<ImageResult> => {
       };
     }
 
-    // Check if image exists
     const images = await getAvailableImages();
     const found = images.find(img => img.name === filename);
     
