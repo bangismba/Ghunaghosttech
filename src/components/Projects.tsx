@@ -1,38 +1,121 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { getProjects } from '@lib/firebase/projects';
-import { Project } from '@types';
+import { db } from '@lib/firebase/config';
+import { collection, getDocs } from 'firebase/firestore';
+
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  tech: string[];
+  link: string;
+  image: string;
+  category: string;
+  order: number;
+  status: string;
+  featured: boolean;
+}
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const data = await getProjects('published');
-        setProjects(data);
-      } catch (error) {
-        console.error('Error fetching projects:', error);
+        setLoading(true);
+        setError(null);
+        
+        console.log('🔍 Fetching projects from Firebase...');
+        
+        // Simple query without any filters first
+        const projectsRef = collection(db, 'projects');
+        const snapshot = await getDocs(projectsRef);
+        
+        console.log('📦 Raw snapshot size:', snapshot.size);
+        
+        // Map all documents
+        const allProjects = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Project[];
+        
+        console.log('📦 All projects:', allProjects);
+        
+        // Filter for published projects
+        const published = allProjects.filter(p => p.status === 'published');
+        console.log('📦 Published projects:', published);
+        
+        // Sort by order
+        published.sort((a, b) => (a.order || 0) - (b.order || 0));
+        
+        setProjects(published);
+        
+        if (published.length === 0 && allProjects.length > 0) {
+          console.warn('⚠️ Found projects but none are published. Statuses:', 
+            allProjects.map(p => ({ title: p.title, status: p.status }))
+          );
+        }
+        
+      } catch (err: any) {
+        console.error('❌ Error fetching projects:', err);
+        setError(err.message || 'Failed to load projects');
       } finally {
         setLoading(false);
       }
     };
+
     fetchProjects();
   }, []);
 
+  // Loading state
   if (loading) {
     return (
       <section id="projects" className="relative overflow-hidden bg-[#080808] text-white py-20">
-        <div className="max-w-[1600px] mx-auto px-5 text-center text-zinc-500 font-mono text-sm animate-pulse">
-          Loading projects...
+        <div className="max-w-[1600px] mx-auto px-5 text-center">
+          <p className="text-zinc-500 font-mono text-sm animate-pulse">
+            Loading projects...
+          </p>
         </div>
       </section>
     );
   }
 
+  // Error state
+  if (error) {
+    return (
+      <section id="projects" className="relative overflow-hidden bg-[#080808] text-white py-20">
+        <div className="max-w-[1600px] mx-auto px-5 text-center">
+          <p className="text-red-400 font-mono text-sm">Error: {error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="mt-4 px-4 py-2 border border-white/20 text-white/60 hover:text-white hover:border-white/40 rounded-lg transition"
+          >
+            Retry
+          </button>
+        </div>
+      </section>
+    );
+  }
+
+  // No projects
+  if (projects.length === 0) {
+    return (
+      <section id="projects" className="relative overflow-hidden bg-[#080808] text-white py-20">
+        <div className="max-w-[1600px] mx-auto px-5 text-center">
+          <p className="text-zinc-500 font-mono text-sm">
+            No published projects yet. Check back soon.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  // Render projects
   return (
     <section id="projects" className="relative overflow-hidden bg-[#080808] text-white">
+      {/* Section Header */}
       <div className="border-y border-white/10">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-5 md:px-8">
           <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
@@ -46,6 +129,7 @@ export default function Projects() {
         </div>
       </div>
 
+      {/* Intro */}
       <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-8 md:py-28">
         <div className="grid lg:grid-cols-12">
           <motion.div
@@ -85,6 +169,7 @@ export default function Projects() {
         </div>
       </div>
 
+      {/* Projects List */}
       <div className="mx-auto max-w-[1600px] px-5 pb-20 md:px-8 md:pb-28">
         <div className="border border-white/10">
           {projects.map((project, index) => (
@@ -97,18 +182,31 @@ export default function Projects() {
               className="group border-b border-white/10 last:border-b-0"
             >
               <div className="grid lg:grid-cols-12">
+                {/* Number */}
                 <div className="flex min-h-[70px] items-center border-b border-white/10 px-5 lg:col-span-1 lg:border-r lg:border-b-0 md:px-6">
                   <span className="font-mono text-[10px] text-zinc-600">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
 
+                {/* Image */}
                 <div className="relative min-h-[260px] overflow-hidden border-b border-white/10 lg:col-span-4 lg:border-r lg:border-b-0 md:min-h-[320px]">
                   {project.image ? (
                     <img
-                      src={project.image}
+                      src={project.image.startsWith('http') ? project.image : `/projects/${project.image}`}
                       alt={project.title}
                       className="h-full w-full object-cover grayscale transition duration-700 ease-out group-hover:scale-[1.03] group-hover:grayscale-0"
+                      onError={(e) => {
+                        // Fallback if image doesn't load
+                        const parent = e.currentTarget.parentElement;
+                        if (parent) {
+                          e.currentTarget.style.display = 'none';
+                          const fallback = document.createElement('div');
+                          fallback.className = 'h-full w-full bg-zinc-900 flex items-center justify-center';
+                          fallback.innerHTML = '<span class="font-mono text-xs text-zinc-600">Image not found</span>';
+                          parent.appendChild(fallback);
+                        }
+                      }}
                     />
                   ) : (
                     <div className="h-full w-full bg-zinc-900 flex items-center justify-center">
@@ -117,7 +215,7 @@ export default function Projects() {
                   )}
                   <div className="absolute inset-0 bg-black/20 transition group-hover:bg-transparent" />
                   <div className="absolute left-5 top-5 border border-white/20 bg-black/70 px-3 py-2 font-mono text-[9px] uppercase tracking-[0.15em] text-zinc-300 backdrop-blur-sm">
-                    {project.category}
+                    {project.category || 'PROJECT'}
                   </div>
                   {project.link === "#" && (
                     <div className="absolute bottom-5 right-5 border border-white/20 bg-black/70 px-3 py-2 font-mono text-[9px] uppercase tracking-[0.15em] text-zinc-300 backdrop-blur-sm">
@@ -126,6 +224,7 @@ export default function Projects() {
                   )}
                 </div>
 
+                {/* Content */}
                 <div className="flex flex-col justify-between p-6 lg:col-span-7 md:p-10">
                   <div>
                     <div className="flex items-start justify-between gap-6">
@@ -144,6 +243,7 @@ export default function Projects() {
                     </p>
                   </div>
 
+                  {/* Meta */}
                   <div className="mt-12 border-t border-white/10 pt-5">
                     <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                       <div>
@@ -151,14 +251,14 @@ export default function Projects() {
                           TECHNOLOGY STACK
                         </span>
                         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
-                          {project.tech.map((tech: string) => (
+                          {project.tech && project.tech.map((tech: string) => (
                             <span key={tech} className="font-mono text-[10px] uppercase tracking-wider text-zinc-400">
                               [{tech}]
                             </span>
                           ))}
                         </div>
                       </div>
-                      {project.link !== "#" ? (
+                      {project.link && project.link !== "#" ? (
                         <a
                           href={project.link}
                           target="_blank"
@@ -180,14 +280,10 @@ export default function Projects() {
               </div>
             </motion.article>
           ))}
-          {projects.length === 0 && (
-            <div className="p-12 text-center text-zinc-500 font-mono text-sm">
-              No projects published yet. Check back soon.
-            </div>
-          )}
         </div>
       </div>
 
+      {/* Footer */}
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-[1600px] flex-col justify-between gap-4 px-5 py-6 md:flex-row md:items-center md:px-8">
           <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600">

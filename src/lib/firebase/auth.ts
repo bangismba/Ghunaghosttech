@@ -3,31 +3,26 @@ import {
   signOut, 
   onAuthStateChanged,
   User,
-  createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
-  updateProfile,
   GoogleAuthProvider,
   signInWithPopup,
-  signInWithRedirect,
-  getRedirectResult,
-  OAuthProvider,
-  linkWithPopup,
-  reauthenticateWithPopup
+  sendPasswordResetEmail,
+  browserLocalPersistence,
+  setPersistence
 } from 'firebase/auth';
 import { auth } from './config';
 
-// Email/Password Login
+// Login with email and password
 export const loginWithEmail = async (email: string, password: string) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return { success: true, user: userCredential.user };
   } catch (error: any) {
-    console.error('Login error:', error);
+    console.error('❌ Login error:', error);
     return { success: false, error: error.message, code: error.code };
   }
 };
 
-// Google Sign-In with Popup
+// Login with Google
 export const loginWithGoogle = async () => {
   try {
     const provider = new GoogleAuthProvider();
@@ -37,30 +32,7 @@ export const loginWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
     return { success: true, user: result.user };
   } catch (error: any) {
-    console.error('Google login error:', error);
-    return { success: false, error: error.message, code: error.code };
-  }
-};
-
-// Google Sign-In with Redirect (better for mobile)
-export const loginWithGoogleRedirect = async () => {
-  const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({
-    prompt: 'select_account'
-  });
-  await signInWithRedirect(auth, provider);
-};
-
-// Handle redirect result (call this on page load)
-export const handleRedirectResult = async () => {
-  try {
-    const result = await getRedirectResult(auth);
-    if (result) {
-      return { success: true, user: result.user };
-    }
-    return null;
-  } catch (error: any) {
-    console.error('Redirect login error:', error);
+    console.error('❌ Google login error:', error);
     return { success: false, error: error.message, code: error.code };
   }
 };
@@ -71,21 +43,7 @@ export const logoutUser = async () => {
     await signOut(auth);
     return { success: true };
   } catch (error: any) {
-    console.error('Logout error:', error);
-    return { success: false, error: error.message };
-  }
-};
-
-// Register new user
-export const registerUser = async (email: string, password: string, displayName: string) => {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    if (userCredential.user) {
-      await updateProfile(userCredential.user, { displayName });
-    }
-    return { success: true, user: userCredential.user };
-  } catch (error: any) {
-    console.error('Registration error:', error);
+    console.error('❌ Logout error:', error);
     return { success: false, error: error.message };
   }
 };
@@ -96,12 +54,12 @@ export const resetPassword = async (email: string) => {
     await sendPasswordResetEmail(auth, email);
     return { success: true };
   } catch (error: any) {
-    console.error('Password reset error:', error);
+    console.error('❌ Password reset error:', error);
     return { success: false, error: error.message };
   }
 };
 
-// Listen to auth state changes
+// Auth state listener
 export const onAuthChange = (callback: (user: User | null) => void) => {
   return onAuthStateChanged(auth, callback);
 };
@@ -111,7 +69,7 @@ export const getCurrentUser = () => {
   return auth.currentUser;
 };
 
-// Check if user is authenticated
+// Check if authenticated
 export const isAuthenticated = () => {
   return !!auth.currentUser;
 };
