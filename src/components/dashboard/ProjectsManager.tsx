@@ -1,18 +1,17 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { getAllProjects, addProject, updateProject, deleteProject } from '@lib/firebase/projects';
-import { uploadLocalImage, deleteLocalImage, getImageUrl } from '@lib/local/imageUpload';
+import { getImageOptions, selectImage, getImagePreview } from '@lib/local/imageUpload';
 import { Project } from '@types';
-import { Save, X, Edit, Trash2, Plus, Upload, ImageIcon } from 'lucide-react';
+import { Save, X, Edit, Trash2, Plus, Image as ImageIcon, ChevronDown } from 'lucide-react';
 
 export default function ProjectsManager() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [imageOptions, setImageOptions] = useState<{ value: string; label: string; url: string }[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [loadingImages, setLoadingImages] = useState(false);
   
   const [formData, setFormData] = useState<Omit<Project, 'id' | 'createdAt' | 'updatedAt'>>({
     title: '',
@@ -26,8 +25,10 @@ export default function ProjectsManager() {
     featured: false
   });
 
+  // Load projects and images on mount
   useEffect(() => {
     fetchProjects();
+    loadImageOptions();
   }, []);
 
   const fetchProjects = async () => {
@@ -41,70 +42,35 @@ export default function ProjectsManager() {
     }
   };
 
-  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploading(true);
-    setImageFile(file);
-
+  const loadImageOptions = async () => {
+    setLoadingImages(true);
     try {
-      // Create preview
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setImagePreview(event.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-
-      // Process image for upload
-      const result = await uploadLocalImage(file);
-      
-      if (result.success) {
-        setFormData({ ...formData, image: result.url });
-        console.log('✅ Image prepared:', result.filename);
-      } else {
-        alert(result.error || 'Failed to process image');
-      }
+      const options = await getImageOptions();
+      setImageOptions(options);
+      console.log('📸 Loaded image options:', options.length);
     } catch (error) {
-      console.error('Error processing image:', error);
-      alert('Failed to process image');
+      console.error('Error loading image options:', error);
     } finally {
-      setUploading(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+      setLoadingImages(false);
     }
   };
 
-  const handleRemoveImage = () => {
-    if (!formData.image) return;
+  const handleImageSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const filename = e.target.value;
+    setFormData({ ...formData, image: filename });
     
-    if (confirm('Remove this image?')) {
-      setFormData({ ...formData, image: '' });
+    if (filename) {
+      const preview = getImagePreview(filename);
+      setImagePreview(preview);
+    } else {
       setImagePreview(null);
-      setImageFile(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (uploading) {
-      alert('Please wait for image processing to complete');
-      return;
-    }
 
     try {
-      // If editing and image was removed, delete old image from storage
-      if (editingId) {
-        const oldProject = projects.find(p => p.id === editingId);
-        if (oldProject && oldProject.image && !formData.image) {
-          await deleteLocalImage(oldProject.image);
-        }
-      }
-
       const projectToSave = {
         ...formData,
         status: formData.status || 'published'
@@ -131,12 +97,6 @@ export default function ProjectsManager() {
     if (!confirm('Delete this project permanently?')) return;
 
     try {
-      // Get project to delete its image
-      const project = projects.find(p => p.id === id);
-      if (project?.image) {
-        await deleteLocalImage(project.image);
-      }
-      
       await deleteProject(id);
       await fetchProjects();
     } catch (error) {
@@ -158,7 +118,13 @@ export default function ProjectsManager() {
       status: project.status || 'published',
       featured: project.featured || false
     });
-    setImagePreview(project.image || null);
+    
+    if (project.image) {
+      setImagePreview(getImagePreview(project.image));
+    } else {
+      setImagePreview(null);
+    }
+    
     setShowForm(true);
   };
 
@@ -176,10 +142,6 @@ export default function ProjectsManager() {
       featured: false
     });
     setImagePreview(null);
-    setImageFile(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
   };
 
   const handleTechChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -215,32 +177,35 @@ export default function ProjectsManager() {
       {showForm && (
         <div className="border border-white/10 p-6 mb-8">
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Image Upload Section */}
+            {/* Image Selection Section */}
             <div className="border border-white/10 p-4">
               <label className="font-mono text-xs uppercase tracking-wider text-zinc-600 block mb-2">
                 Project Image
               </label>
               <div className="flex items-start gap-4">
                 <div className="flex-1">
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleImageSelect}
-                    accept="image/jpeg,image/png,image/webp,image/gif"
-                    className="hidden"
-                    id="image-upload"
-                  />
-                  <label
-                    htmlFor="image-upload"
-                    className={`flex items-center gap-2 border border-white/10 px-4 py-3 font-mono text-sm text-zinc-400 cursor-pointer hover:border-white/30 transition ${
-                      uploading ? 'opacity-50 cursor-not-allowed' : ''
-                    }`}
-                  >
-                    <Upload className="h-4 w-4" />
-                    {uploading ? 'Processing...' : 'Choose Image'}
-                  </label>
-                  <p className="text-[10px] text-zinc-600 mt-1">JPEG, PNG, WebP, GIF (max 5MB)</p>
-                  <p className="text-[10px] text-zinc-600 mt-1">Images will be stored locally in public/projects/</p>
+                  <div className="relative">
+                    <select
+                      value={formData.image}
+                      onChange={handleImageSelect}
+                      className="w-full bg-transparent border border-white/10 px-4 py-3 font-mono text-sm text-white appearance-none focus:border-white/30 outline-none pr-10"
+                      disabled={loadingImages}
+                    >
+                      <option value="">Select an image...</option>
+                      {imageOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 pointer-events-none" />
+                  </div>
+                  <p className="text-[10px] text-zinc-600 mt-1">
+                    Images stored in public/projects/ folder
+                  </p>
+                  <p className="text-[10px] text-zinc-600">
+                    {imageOptions.length} images available
+                  </p>
                 </div>
                 {imagePreview && (
                   <div className="relative w-24 h-24 flex-shrink-0 border border-white/10 overflow-hidden group">
@@ -251,7 +216,10 @@ export default function ProjectsManager() {
                     />
                     <button
                       type="button"
-                      onClick={handleRemoveImage}
+                      onClick={() => {
+                        setFormData({ ...formData, image: '' });
+                        setImagePreview(null);
+                      }}
                       className="absolute inset-0 bg-black/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
                     >
                       <X className="h-5 w-5 text-white" />
@@ -261,7 +229,7 @@ export default function ProjectsManager() {
               </div>
             </div>
 
-            {/* Form Fields - Same as before */}
+            {/* Form Fields */}
             <div className="grid md:grid-cols-2 gap-4">
               <input
                 type="text"
@@ -341,11 +309,10 @@ export default function ProjectsManager() {
             <div className="flex gap-3">
               <button
                 type="submit"
-                disabled={uploading}
-                className="flex items-center gap-2 border border-white/30 px-6 py-3 font-mono text-sm hover:bg-white hover:text-black transition disabled:opacity-50"
+                className="flex items-center gap-2 border border-white/30 px-6 py-3 font-mono text-sm hover:bg-white hover:text-black transition"
               >
                 <Save className="h-4 w-4" />
-                {uploading ? 'Processing...' : editingId ? 'Update Project' : 'Add Project'}
+                {editingId ? 'Update Project' : 'Add Project'}
               </button>
               <button
                 type="button"
@@ -360,7 +327,7 @@ export default function ProjectsManager() {
         </div>
       )}
 
-      {/* Projects List - Same as before */}
+      {/* Projects List */}
       <div className="border border-white/10 divide-y divide-white/10">
         {projects.map((project, index) => (
           <div key={project.id} className="flex items-center justify-between p-4 hover:bg-white/5 transition">
@@ -371,12 +338,11 @@ export default function ProjectsManager() {
               {project.image && (
                 <div className="w-12 h-12 flex-shrink-0 border border-white/10 overflow-hidden bg-white/5">
                   <img
-                    src={project.image.startsWith('http') ? project.image : `/projects/${project.image}`}
+                    src={`/projects/${project.image}`}
                     alt={project.title}
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       e.currentTarget.src = '';
-                      e.currentTarget.parentElement?.classList.add('bg-white/5');
                       e.currentTarget.parentElement!.innerHTML = '<span class="text-zinc-600 text-xs">No image</span>';
                     }}
                   />

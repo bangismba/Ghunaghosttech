@@ -20,8 +20,16 @@ export default function Navbar() {
     }`}>
       <div className="max-w-[1600px] mx-auto px-5 md:px-8">
         <div className="flex items-center justify-between h-16">
-          <a href="/" className="font-mono text-sm tracking-tight text-white">
-            GHUNAGHOST
+          {/* Logo with text */}
+          <a href="/" className="flex items-center gap-3 group">
+            <img 
+              src="/logo1.png" 
+              alt="Ghunaghost Tech" 
+              className="h-8 w-8 object-contain transition duration-300 group-hover:scale-105"
+            />
+            <span className="font-mono text-sm tracking-tight text-white">
+              GHUNAGHOST
+            </span>
           </a>
 
           <div className="hidden md:flex items-center gap-8">

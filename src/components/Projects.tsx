@@ -29,13 +29,11 @@ export default function Projects() {
         
         console.log('🔍 Fetching projects from Firebase...');
         
-        // Simple query without any filters first
         const projectsRef = collection(db, 'projects');
         const snapshot = await getDocs(projectsRef);
         
         console.log('📦 Raw snapshot size:', snapshot.size);
         
-        // Map all documents
         const allProjects = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
@@ -43,11 +41,9 @@ export default function Projects() {
         
         console.log('📦 All projects:', allProjects);
         
-        // Filter for published projects
         const published = allProjects.filter(p => p.status === 'published');
         console.log('📦 Published projects:', published);
         
-        // Sort by order
         published.sort((a, b) => (a.order || 0) - (b.order || 0));
         
         setProjects(published);
@@ -193,7 +189,7 @@ export default function Projects() {
                 <div className="relative min-h-[260px] overflow-hidden border-b border-white/10 lg:col-span-4 lg:border-r lg:border-b-0 md:min-h-[320px]">
                   {project.image ? (
                     <img
-                      src={project.image.startsWith('http') ? project.image : `/projects/${project.image}`}
+                      src={`/projects/${project.image}`}
                       alt={project.title}
                       className="h-full w-full object-cover grayscale transition duration-700 ease-out group-hover:scale-[1.03] group-hover:grayscale-0"
                       onError={(e) => {

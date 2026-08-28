@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { ceoImage } from '../assets/img/placeholder';
 
 export default function Founder() {
   return (
@@ -66,7 +65,7 @@ export default function Founder() {
 
             <div className="relative min-h-[300px] overflow-hidden border-b border-white/10 lg:col-span-4 lg:border-r lg:border-b-0 md:min-h-[400px]">
               <img
-                src={ceoImage}
+                src="/ceo.jpeg"
                 alt="Aliyu Muhammadu Babangida"
                 className="h-full w-full object-cover grayscale transition duration-700 ease-out hover:scale-[1.03] hover:grayscale-0"
               />
