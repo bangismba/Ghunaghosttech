@@ -7,7 +7,7 @@
     "skipLibCheck": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,     // ✅ Required for JSON imports
+    "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
@@ -15,12 +15,13 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",                 // ✅ Required for paths
-    "paths": {                      // ✅ Add path mappings
+    "baseUrl": ".",
+    "paths": {
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@lib/*": ["src/lib/*"],
       "@types/*": ["src/types/*"],
+      "@types": ["src/types"],  // ✅ Add this for direct @types import
       "@utils/*": ["src/utils/*"],
       "@hooks/*": ["src/hooks/*"],
       "@assets/*": ["src/assets/*"]

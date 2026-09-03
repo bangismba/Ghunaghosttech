@@ -44,8 +44,7 @@ export default defineConfig({
         ]
       },
       workbox: {
-        // Increase the file size limit to 5MB (from default 2MB)
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MB
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
         runtimeCaching: [
           {
@@ -55,7 +54,7 @@ export default defineConfig({
               cacheName: 'firebase-cache',
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days
+                maxAgeSeconds: 60 * 60 * 24 * 7
               }
             }
           },
@@ -66,7 +65,7 @@ export default defineConfig({
               cacheName: 'google-fonts-cache',
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
+                maxAgeSeconds: 60 * 60 * 24 * 30
               }
             }
           }
@@ -85,7 +84,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
       '@components': path.resolve(__dirname, './src/components'),
       '@lib': path.resolve(__dirname, './src/lib'),
-      '@types': path.resolve(__dirname, './src/types'),
+      '@types': path.resolve(__dirname, './src/types'),  // ✅ This is already correct
       '@utils': path.resolve(__dirname, './src/utils'),
       '@hooks': path.resolve(__dirname, './src/hooks'),
       '@assets': path.resolve(__dirname, './src/assets'),

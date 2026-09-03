@@ -50,3 +50,4 @@ export interface Founder {
   createdAt: any;
   updatedAt: any;
 }
+

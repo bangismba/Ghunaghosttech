@@ -24,6 +24,7 @@
       "@components/*": ["src/components/*"],
       "@lib/*": ["src/lib/*"],
       "@types/*": ["src/types/*"],
+      "@types": ["src/types"],  // ✅ Add this
       "@utils/*": ["src/utils/*"],
       "@hooks/*": ["src/hooks/*"],
       "@assets/*": ["src/assets/*"]
