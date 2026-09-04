@@ -21,16 +21,13 @@ export default function Navbar() {
     }`}>
       <div className="max-w-[1600px] mx-auto px-5 md:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo with text */}
-          <a href="/" className="flex items-center gap-3 group">
+          {/* Logo only - No text */}
+          <a href="/" className="flex items-center group">
             <img 
               src="/logo1.png" 
               alt="Ghunaghost Tech" 
-              className="h-8 w-8 object-contain transition duration-300 group-hover:scale-105"
+              className="h-12 w-12 object-contain transition duration-300 group-hover:scale-105 md:h-14 md:w-14"
             />
-            <span className="font-mono text-sm tracking-tight text-[var(--text-primary)]">
-              GHUNAGHOST
-            </span>
           </a>
 
           <div className="hidden md:flex items-center gap-8">

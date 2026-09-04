@@ -1,50 +1,28 @@
 import { motion } from 'framer-motion';
-import { useEffect, useRef } from 'react';
-import lottie from 'lottie-web';
 import { COMPANY_RC } from '@utils/constants';
-import heroAnimation from '@assets/lottie/Hero1.json';
 
 export default function Hero() {
-  const lottieContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (lottieContainerRef.current) {
-      const animation = lottie.loadAnimation({
-        container: lottieContainerRef.current,
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        animationData: heroAnimation,
-        rendererSettings: {
-          preserveAspectRatio: 'xMidYMid meet',
-          progressiveLoad: true,
-        }
-      });
-
-      return () => {
-        animation.destroy();
-      };
-    }
-  }, []);
-
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-[var(--bg-primary)]">
+    <section className="relative min-h-screen flex items-center overflow-hidden">
       
-      {/* LOTTIE BACKGROUND ANIMATION - SMALLER & RIGHT SIDE */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none z-0 opacity-30 hidden lg:block">
-        <div ref={lottieContainerRef} className="w-[400px] h-[400px] md:w-[500px] md:h-[500px]" />
+      {/* Background Image - Full visibility */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url('/hero.jpeg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        {/* Minimal overlay for text readability */}
+        <div className="absolute inset-0 bg-[var(--bg-primary)]/80" />
       </div>
 
-      {/* Background Effects */}
-      <div className="absolute inset-0 overflow-hidden z-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00d4ff]/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#7c3aed]/5 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_var(--bg-primary)_100%)]" />
-      </div>
-
-      {/* Logo Watermark */}
-      <div className="absolute right-0 bottom-0 opacity-[0.04] pointer-events-none select-none z-0">
-        <img src="/logo1.png" alt="" className="w-[600px] h-[600px] object-contain" />
+      {/* Subtle glow effects */}
+      <div className="absolute inset-0 overflow-hidden z-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00d4ff]/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#7c3aed]/10 rounded-full blur-3xl" />
       </div>
 
       {/* Main Content */}
@@ -55,6 +33,7 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="max-w-4xl"
         >
+
           {/* Headline */}
           <motion.h1 
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium leading-[0.92] tracking-[-0.05em] text-[var(--text-primary)]"
