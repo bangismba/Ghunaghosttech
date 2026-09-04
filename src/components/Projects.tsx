@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { db } from '@lib/firebase/config';
 import { collection, getDocs, DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { ArrowUpRight, Calendar, Sparkles } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -20,14 +21,14 @@ export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         setLoading(true);
         setError(null);
-        
-        console.log('🔍 Fetching projects from Firebase...');
         
         if (!db) {
           throw new Error('Firebase not initialized');
@@ -36,27 +37,15 @@ export default function Projects() {
         const projectsRef = collection(db, 'projects');
         const snapshot = await getDocs(projectsRef);
         
-        console.log('📦 Raw snapshot size:', snapshot.size);
-        
         const allProjects = snapshot.docs.map((doc: QueryDocumentSnapshot<DocumentData>) => ({
           id: doc.id,
           ...doc.data()
         })) as Project[];
         
-        console.log('📦 All projects:', allProjects);
-        
         const published = allProjects.filter(p => p.status === 'published');
-        console.log('📦 Published projects:', published);
-        
         published.sort((a, b) => (a.order || 0) - (b.order || 0));
         
         setProjects(published);
-        
-        if (published.length === 0 && allProjects.length > 0) {
-          console.warn('⚠️ Found projects but none are published. Statuses:', 
-            allProjects.map(p => ({ title: p.title, status: p.status }))
-          );
-        }
         
       } catch (err: any) {
         console.error('❌ Error fetching projects:', err);
@@ -72,9 +61,10 @@ export default function Projects() {
   // Loading state
   if (loading) {
     return (
-      <section id="projects" className="relative overflow-hidden bg-[#080808] text-white py-20">
-        <div className="max-w-[1600px] mx-auto px-5 text-center">
-          <p className="text-zinc-500 font-mono text-sm animate-pulse">
+      <section className="relative min-h-[400px] bg-[var(--bg-primary)] flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block w-8 h-8 border-2 border-[#00d4ff] border-t-transparent rounded-full animate-spin" />
+          <p className="mt-4 text-[var(--text-muted)] font-mono text-sm animate-pulse">
             Loading projects...
           </p>
         </div>
@@ -85,14 +75,14 @@ export default function Projects() {
   // Error state
   if (error) {
     return (
-      <section id="projects" className="relative overflow-hidden bg-[#080808] text-white py-20">
-        <div className="max-w-[1600px] mx-auto px-5 text-center">
-          <p className="text-red-400 font-mono text-sm">Error: {error}</p>
+      <section className="relative min-h-[400px] bg-[var(--bg-primary)] flex items-center justify-center">
+        <div className="text-center max-w-md px-4">
+          <p className="text-red-400 font-mono text-sm">{error}</p>
           <button 
             onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 border border-white/20 text-white/60 hover:text-white hover:border-white/40 rounded-lg transition"
+            className="mt-6 px-6 py-2 border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--text-primary)]/30 rounded-lg transition"
           >
-            Retry
+            Try Again
           </button>
         </div>
       </section>
@@ -102,189 +92,228 @@ export default function Projects() {
   // No projects
   if (projects.length === 0) {
     return (
-      <section id="projects" className="relative overflow-hidden bg-[#080808] text-white py-20">
-        <div className="max-w-[1600px] mx-auto px-5 text-center">
-          <p className="text-zinc-500 font-mono text-sm">
-            No published projects yet. Check back soon.
+      <section className="relative min-h-[400px] bg-[var(--bg-primary)] flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-[var(--text-muted)] font-mono text-sm">
+            No projects published yet. Check back soon.
           </p>
         </div>
       </section>
     );
   }
 
-  // Render projects
   return (
-    <section id="projects" className="relative overflow-hidden bg-[#080808] text-white">
-      {/* Section Header */}
-      <div className="border-y border-white/10">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-5 md:px-8">
-          <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
-            <span>§05</span>
-            <span className="h-px w-8 bg-white/20" />
-            <span>SELECTED WORK</span>
-          </div>
-          <span className="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600 sm:block">
-            {projects.length.toString().padStart(2, "0")} PROJECTS / ARCHIVE
-          </span>
-        </div>
+    <section 
+      id="projects" 
+      className="relative bg-[var(--bg-primary)] py-24 overflow-hidden"
+    >
+      {/* Ambient Background Effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#00d4ff]/5 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-[#7c3aed]/5 rounded-full blur-3xl" />
       </div>
 
-      {/* Intro */}
-      <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-8 md:py-28">
-        <div className="grid lg:grid-cols-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-4"
-          >
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">
-              PROJECT ARCHIVE
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="mb-12">
+          <div className="flex items-center gap-4 mb-6">
+            <span className="text-[10px] font-mono text-[#00d4ff] tracking-[0.2em] font-medium">
+              §05
             </span>
-            <h2 className="mt-8 text-5xl font-medium leading-[0.92] tracking-[-0.05em] sm:text-6xl md:text-7xl">
-              BUILT.
-              <br />
-              <span className="text-zinc-500">TESTED.</span>
-              <br />
-              DEPLOYED.
-            </h2>
-          </motion.div>
+            <span className="h-px flex-1 bg-gradient-to-r from-[#00d4ff]/30 to-transparent" />
+            <span className="text-[10px] font-mono text-[var(--text-muted)] tracking-[0.2em]">
+              {projects.length} PROJECTS
+            </span>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.65, delay: 0.1 }}
-            className="mt-10 lg:col-span-7 lg:col-start-6 lg:mt-0"
-          >
-            <p className="max-w-2xl text-xl leading-relaxed text-zinc-300 sm:text-2xl">
-              A selection of digital platforms, websites and systems built to solve real problems.
+          <div className="flex items-end justify-between">
+            <div>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-[var(--text-primary)] leading-[1.1]">
+                Selected
+                <br />
+                <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#00d4ff] to-[#7c3aed]">
+                  Work
+                </span>
+              </h2>
+            </div>
+            <p className="text-[var(--text-secondary)] text-sm max-w-xs text-right hidden md:block">
+              {projects.length} projects • horizontal scroll
             </p>
-            <p className="mt-6 max-w-xl text-sm leading-7 text-zinc-500 sm:text-base">
-              Each project represents a different challenge, industry and technical approach — 
-              from e-commerce and payment systems to blockchain platforms and organizational websites.
-            </p>
-          </motion.div>
+          </div>
         </div>
-      </div>
 
-      {/* Projects List */}
-      <div className="mx-auto max-w-[1600px] px-5 pb-20 md:px-8 md:pb-28">
-        <div className="border border-white/10">
-          {projects.map((project, index) => (
-            <motion.article
-              key={project.id}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.55, delay: index * 0.06 }}
-              className="group border-b border-white/10 last:border-b-0"
-            >
-              <div className="grid lg:grid-cols-12">
-                <div className="flex min-h-[70px] items-center border-b border-white/10 px-5 lg:col-span-1 lg:border-r lg:border-b-0 md:px-6">
-                  <span className="font-mono text-[10px] text-zinc-600">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
-
-                <div className="relative min-h-[260px] overflow-hidden border-b border-white/10 lg:col-span-4 lg:border-r lg:border-b-0 md:min-h-[320px]">
-                  {project.image ? (
-                    <img
-                      src={`/projects/${project.image}`}
-                      alt={project.title}
-                      className="h-full w-full object-cover grayscale transition duration-700 ease-out group-hover:scale-[1.03] group-hover:grayscale-0"
-                      onError={(e) => {
-                        const parent = e.currentTarget.parentElement;
-                        if (parent) {
-                          e.currentTarget.style.display = 'none';
-                          const fallback = document.createElement('div');
-                          fallback.className = 'h-full w-full bg-zinc-900 flex items-center justify-center';
-                          fallback.innerHTML = '<span class="font-mono text-xs text-zinc-600">Image not found</span>';
-                          parent.appendChild(fallback);
-                        }
-                      }}
-                    />
-                  ) : (
-                    <div className="h-full w-full bg-zinc-900 flex items-center justify-center">
-                      <span className="font-mono text-xs text-zinc-600">No image</span>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-black/20 transition group-hover:bg-transparent" />
-                  <div className="absolute left-5 top-5 border border-white/20 bg-black/70 px-3 py-2 font-mono text-[9px] uppercase tracking-[0.15em] text-zinc-300 backdrop-blur-sm">
-                    {project.category || 'PROJECT'}
-                  </div>
-                  {project.link === "#" && (
-                    <div className="absolute bottom-5 right-5 border border-white/20 bg-black/70 px-3 py-2 font-mono text-[9px] uppercase tracking-[0.15em] text-zinc-300 backdrop-blur-sm">
-                      COMING SOON
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex flex-col justify-between p-6 lg:col-span-7 md:p-10">
-                  <div>
-                    <div className="flex items-start justify-between gap-6">
-                      <div>
-                        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">
-                          PROJECT / {String(index + 1).padStart(2, "0")}
-                        </span>
-                        <h3 className="mt-5 text-2xl font-medium tracking-[-0.03em] text-white sm:text-3xl md:text-4xl">
-                          {project.title}
-                        </h3>
-                      </div>
-                      <span className="hidden font-mono text-xs text-zinc-700 sm:block">↗</span>
-                    </div>
-                    <p className="mt-6 max-w-2xl text-sm leading-7 text-zinc-500 sm:text-base">
-                      {project.description}
-                    </p>
-                  </div>
-
-                  <div className="mt-12 border-t border-white/10 pt-5">
-                    <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-                      <div>
-                        <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-600">
-                          TECHNOLOGY STACK
-                        </span>
-                        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
-                          {project.tech && project.tech.map((tech: string) => (
-                            <span key={tech} className="font-mono text-[10px] uppercase tracking-wider text-zinc-400">
-                              [{tech}]
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      {project.link && project.link !== "#" ? (
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group/link flex items-center justify-between border border-white/15 px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-zinc-300 transition hover:border-white hover:bg-white hover:text-black"
-                        >
-                          VIEW PROJECT
-                          <span className="ml-8 transition-transform group-hover/link:translate-x-1">→</span>
-                        </a>
+        {/* Horizontal Scrolling Container */}
+        <div 
+          ref={scrollRef}
+          className="overflow-x-auto overflow-y-visible pb-8 scrollbar-hide"
+          style={{
+            scrollBehavior: 'smooth',
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'none',
+          }}
+        >
+          <div className="flex gap-6 w-max min-w-full">
+            {projects.map((project, index) => {
+              const isHovered = hoveredIndex === index;
+              
+              return (
+                <motion.div
+                  key={project.id}
+                  className="w-[300px] md:w-[340px] lg:w-[380px] flex-shrink-0"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: 0.6, 
+                    delay: index * 0.08,
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                >
+                  <div className={`group relative bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl overflow-hidden transition-all duration-500 h-full ${
+                    isHovered ? 'shadow-2xl shadow-[#00d4ff]/5 border-[#00d4ff]/20' : ''
+                  }`}>
+                    {/* Image Container */}
+                    <div className="relative aspect-[4/3] overflow-hidden bg-[var(--bg-primary)]">
+                      {project.image ? (
+                        <img
+                          src={`/projects/${project.image}`}
+                          alt={project.title}
+                          className={`w-full h-full object-cover transition-all duration-700 ${
+                            isHovered ? 'scale-110' : 'scale-100'
+                          }`}
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            target.style.display = 'none';
+                            const parent = target.parentElement;
+                            if (parent) {
+                              const fallback = document.createElement('div');
+                              fallback.className = 'w-full h-full flex items-center justify-center bg-[var(--bg-primary)]';
+                              fallback.innerHTML = `
+                                <span class="font-mono text-xs text-[var(--text-muted)]">No image</span>
+                              `;
+                              parent.appendChild(fallback);
+                            }
+                          }}
+                        />
                       ) : (
-                        <div className="flex items-center border border-white/10 px-5 py-3 font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-                          <span>COMING SOON</span>
-                          <span className="ml-8 text-zinc-700">—</span>
+                        <div className="w-full h-full flex items-center justify-center bg-[var(--bg-primary)]">
+                          <span className="font-mono text-xs text-[var(--text-muted)]">No image</span>
+                        </div>
+                      )}
+                      
+                      {/* Image Overlay Gradient */}
+                      <div className={`absolute inset-0 bg-gradient-to-t from-[var(--bg-secondary)] via-transparent to-transparent transition-opacity duration-500 ${
+                        isHovered ? 'opacity-100' : 'opacity-80'
+                      }`} />
+
+                      {/* Category Badge */}
+                      <div className="absolute top-4 left-4">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-black/60 backdrop-blur-sm border border-white/10 rounded-full text-[10px] font-mono text-white/80 tracking-wider">
+                          <Sparkles className="w-3 h-3 text-[#00d4ff]" />
+                          {project.category || 'PROJECT'}
+                        </span>
+                      </div>
+
+                      {/* Status Badge */}
+                      {project.link === "#" && (
+                        <div className="absolute top-4 right-4">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/20 backdrop-blur-sm border border-amber-500/30 rounded-full text-[10px] font-mono text-amber-400 tracking-wider">
+                            <Calendar className="w-3 h-3" />
+                            Coming Soon
+                          </span>
                         </div>
                       )}
                     </div>
+
+                    {/* Content */}
+                    <div className="p-6">
+                      <h3 className="text-lg font-medium text-[var(--text-primary)] mb-2 tracking-tight line-clamp-1">
+                        {project.title}
+                      </h3>
+                      
+                      <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4 line-clamp-2">
+                        {project.description}
+                      </p>
+
+                      {/* Tech Stack */}
+                      <div className="flex flex-wrap gap-1.5 mb-5">
+                        {project.tech && project.tech.slice(0, 4).map((tech) => (
+                          <span 
+                            key={tech} 
+                            className="px-2 py-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-md text-[9px] font-mono text-[var(--text-muted)] tracking-wider"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                        {project.tech && project.tech.length > 4 && (
+                          <span className="px-2 py-1 rounded-md text-[9px] font-mono text-[var(--text-muted)]">
+                            +{project.tech.length - 4}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Link */}
+                      <div className="flex items-center justify-between pt-4 border-t border-[var(--border-color)]">
+                        <span className="text-[10px] font-mono text-[var(--text-muted)] tracking-wider">
+                          {project.featured ? '★ Featured' : `#${String(index + 1).padStart(2, '0')}`}
+                        </span>
+                        {project.link && project.link !== "#" ? (
+                          <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`inline-flex items-center gap-2 text-sm font-medium transition-all duration-300 ${
+                              isHovered 
+                                ? 'text-[#00d4ff] gap-3' 
+                                : 'text-[var(--text-secondary)]'
+                            }`}
+                          >
+                            <span>View</span>
+                            <ArrowUpRight className={`w-4 h-4 transition-transform duration-300 ${
+                              isHovered ? 'translate-x-0.5 -translate-y-0.5' : ''
+                            }`} />
+                          </a>
+                        ) : (
+                          <span className="text-sm text-[var(--text-muted)] font-mono">
+                            Coming Soon
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Hover Glow Effect */}
+                    <div className={`absolute -inset-0.5 bg-gradient-to-r from-[#00d4ff]/0 via-[#00d4ff]/0 to-[#7c3aed]/0 rounded-2xl transition-all duration-700 pointer-events-none ${
+                      isHovered ? 'from-[#00d4ff]/10 via-[#00d4ff]/5 to-[#7c3aed]/10' : ''
+                    }`} />
                   </div>
+                </motion.div>
+              );
+            })}
+
+            {/* End Card */}
+            <div className="w-[200px] md:w-[250px] flex-shrink-0 flex items-center justify-center">
+              <div className="w-full aspect-square rounded-full border border-[var(--border-color)] flex items-center justify-center bg-[var(--bg-secondary)]/30 backdrop-blur-sm">
+                <div className="text-center">
+                  <span className="block text-3xl font-light text-[var(--text-primary)]">∞</span>
+                  <span className="text-[10px] font-mono text-[var(--text-muted)] tracking-wider">MORE</span>
+                  <span className="text-[8px] font-mono text-[var(--text-muted)] tracking-wider block mt-1">Coming Soon</span>
                 </div>
               </div>
-            </motion.article>
-          ))}
-        </div>
-      </div>
-
-      <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-[1600px] flex-col justify-between gap-4 px-5 py-6 md:flex-row md:items-center md:px-8">
-          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600">
-            END OF SELECTED ARCHIVE
+            </div>
           </div>
-          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600">
-            {projects.length} PROJECTS / DEPLOYED
+        </div>
+
+        {/* Bottom Meta */}
+        <div className="mt-12 pt-6 border-t border-[var(--border-color)] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-6 text-xs font-mono text-[var(--text-muted)] tracking-wider">
+            <span>ARCHIVE: {projects.length} PROJECTS</span>
+            <span className="hidden sm:inline">•</span>
+            <span className="hidden sm:inline">STATUS: DEPLOYED</span>
+          </div>
+          <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500/70 animate-pulse" />
+            <span>SYSTEM ONLINE</span>
           </div>
         </div>
       </div>

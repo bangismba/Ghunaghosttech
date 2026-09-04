@@ -22,12 +22,19 @@
     "paths": {
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
+      "@components": ["src/components"],
       "@lib/*": ["src/lib/*"],
+      "@lib": ["src/lib"],
       "@types/*": ["src/types/*"],
-      "@types": ["src/types"],  // ✅ Add this
+      "@types": ["src/types"],
       "@utils/*": ["src/utils/*"],
+      "@utils": ["src/utils"],
       "@hooks/*": ["src/hooks/*"],
-      "@assets/*": ["src/assets/*"]
+      "@hooks": ["src/hooks"],
+      "@assets/*": ["src/assets/*"],
+      "@assets": ["src/assets"],
+      "@contexts/*": ["src/contexts/*"],
+      "@contexts": ["src/contexts"]
     }
   },
   "include": ["src"]

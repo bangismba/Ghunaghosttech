@@ -24,7 +24,8 @@
       "@types": ["src/types"],  // ✅ Add this for direct @types import
       "@utils/*": ["src/utils/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@assets/*": ["src/assets/*"]
+      "@assets/*": ["src/assets/*"],
+      "@contexts/*": ["./contexts/*"]
     }
   },
   "files": [],
