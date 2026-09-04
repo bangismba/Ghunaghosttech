@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Award, Target, Users, Shield, MapPin, Calendar } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 
 export default function Founder() {
   return (
@@ -85,8 +85,6 @@ export default function Founder() {
               <div className="absolute left-5 top-5 border border-white/20 bg-black/70 px-3 py-2 font-mono text-[9px] uppercase tracking-[0.15em] text-zinc-300 backdrop-blur-sm">
                 CEO & FOUNDER
               </div>
-              
-              {/* Overlay gradient on hover */}
               <div className="absolute inset-0 bg-[#00d4ff]/0 group-hover:bg-[#00d4ff]/5 transition duration-700" />
             </div>
 

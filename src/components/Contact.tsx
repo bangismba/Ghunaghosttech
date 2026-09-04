@@ -41,9 +41,6 @@ export default function Contact() {
     }
   };
 
-  const handleFocus = (field: string) => setFocused(field);
-  const handleBlur = () => setFocused(null);
-
   const contactInfo = [
     { icon: Mail, label: 'Email', value: COMPANY_EMAIL },
     { icon: Phone, label: 'Phone', value: COMPANY_PHONE },

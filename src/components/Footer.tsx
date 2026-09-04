@@ -10,8 +10,7 @@ import {
   FileCheck,
   Award,
   Building2,
-  Sparkles,
-  ArrowUpRight
+  Sparkles
 } from 'lucide-react';
 import { COMPANY_RC, COMPANY_TIN, COMPANY_EMAIL, COMPANY_PHONE, COMPANY_ADDRESS } from '@utils/constants';
 

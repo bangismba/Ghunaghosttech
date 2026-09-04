@@ -6,7 +6,6 @@ import {
   ShieldCheck,
   Rocket,
   Smartphone,
-  Sparkles,
   X,
   ArrowUpRight,
 } from 'lucide-react';
