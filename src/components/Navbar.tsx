@@ -17,16 +17,18 @@ export default function Navbar() {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-[var(--bg-primary)]/95 backdrop-blur-xl border-b border-[var(--border-color)]' : 'bg-transparent'
+      isScrolled 
+        ? 'bg-gradient-to-r from-[#080808] via-[#0a0a0a] to-[#0f0f0f] border-b border-[var(--border-color)]' 
+        : 'bg-gradient-to-r from-[#080808] via-[#0a0a0a] to-transparent'
     }`}>
       <div className="max-w-[1600px] mx-auto px-5 md:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo only - No text */}
-          <a href="/" className="flex items-center group">
+          {/* Logo */}
+          <a href="/" className="flex items-center group relative">
             <img 
               src="/logo1.png" 
               alt="Ghunaghost Tech" 
-              className="h-12 w-12 object-contain transition duration-300 group-hover:scale-105 md:h-14 md:w-14"
+              className="relative h-12 w-auto object-contain transition duration-300 group-hover:scale-105 md:h-14 z-10"
             />
           </a>
 
@@ -35,7 +37,7 @@ export default function Navbar() {
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition"
+                className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60 hover:text-white transition"
               >
                 {item}
               </a>
@@ -43,7 +45,7 @@ export default function Navbar() {
             <ThemeToggle />
             <a
               href="/admin"
-              className="font-mono text-[10px] uppercase tracking-[0.2em] border border-[var(--border-color)] px-4 py-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--text-primary)]/30 transition"
+              className="font-mono text-[10px] uppercase tracking-[0.2em] border border-white/20 px-4 py-2 text-white/60 hover:text-white hover:border-white/40 transition"
             >
               Admin
             </a>
@@ -53,7 +55,7 @@ export default function Navbar() {
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition"
+              className="text-white/60 hover:text-white transition"
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -62,13 +64,13 @@ export default function Navbar() {
       </div>
 
       {isOpen && (
-        <div className="md:hidden border-t border-[var(--border-color)] bg-[var(--bg-primary)]">
+        <div className="md:hidden border-t border-white/10 bg-gradient-to-r from-[#080808] to-[#0f0f0f]">
           <div className="px-5 py-4 space-y-4">
             {NAV_ITEMS.map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="block font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition"
+                className="block font-mono text-[10px] uppercase tracking-[0.2em] text-white/60 hover:text-white transition"
                 onClick={() => setIsOpen(false)}
               >
                 {item}
@@ -76,7 +78,7 @@ export default function Navbar() {
             ))}
             <a
               href="/admin"
-              className="block font-mono text-[10px] uppercase tracking-[0.2em] border border-[var(--border-color)] px-4 py-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--text-primary)]/30 transition inline-block"
+              className="block font-mono text-[10px] uppercase tracking-[0.2em] border border-white/20 px-4 py-2 text-white/60 hover:text-white hover:border-white/40 transition inline-block"
               onClick={() => setIsOpen(false)}
             >
               Admin
