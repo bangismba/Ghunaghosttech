@@ -43,12 +43,6 @@ export default function Navbar() {
               </a>
             ))}
             <ThemeToggle />
-            <a
-              href="/admin"
-              className="font-mono text-[10px] uppercase tracking-[0.2em] border border-white/20 px-4 py-2 text-white/60 hover:text-white hover:border-white/40 transition"
-            >
-              Admin
-            </a>
           </div>
 
           <div className="flex items-center gap-4 md:hidden">
@@ -76,13 +70,6 @@ export default function Navbar() {
                 {item}
               </a>
             ))}
-            <a
-              href="/admin"
-              className="block font-mono text-[10px] uppercase tracking-[0.2em] border border-white/20 px-4 py-2 text-white/60 hover:text-white hover:border-white/40 transition inline-block"
-              onClick={() => setIsOpen(false)}
-            >
-              Admin
-            </a>
           </div>
         </div>
       )}

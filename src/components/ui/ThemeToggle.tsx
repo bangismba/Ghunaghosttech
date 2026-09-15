@@ -17,7 +17,7 @@ export default function ThemeToggle() {
               ? 'opacity-100 rotate-0 scale-100' 
               : 'opacity-0 rotate-90 scale-50'
           }`}
-          style={{ color: 'var(--text-primary)' }}
+          style={{ color: 'white' }}
           size={20}
         />
         <Moon 
