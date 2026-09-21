@@ -12,6 +12,9 @@ export const getAvailableImages = async (): Promise<ImageFile[]> => {
     // Update this list when you add new images to public/projects/
     const imageList: ImageFile[] = [
       { name: 'ummita.png', path: '/projects/ummita.png', url: '/projects/ummita.png' },
+      { name: 'logo1.png', path: '/projects/logo1.png', url: '/projects/logo1.png' },
+      { name: 'logo2.png', path: '/projects/logo2.png', url: '/projects/logo2.png' },
+      { name: 'logo3.png', path: '/projects/logo3.png', url: '/projects/logo3.png' },
       // Add your project images here
       { name: 'afrah.png', path: '/projects/afrah.png', url: '/projects/afrah.png' },
       { name: 'docupy.png', path: '/projects/docupy.png', url: '/projects/docupy.png' },
