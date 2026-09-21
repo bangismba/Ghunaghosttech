@@ -61,7 +61,7 @@ export default function Footer() {
                 <div className="relative">
                   <div className="absolute inset-0 bg-[#00d4ff]/20 blur-xl rounded-full group-hover:bg-[#00d4ff]/30 transition-all duration-500" />
                   <img 
-                    src="/logo1.png" 
+                    src="/logo-mark.svg" 
                     alt="Ghunaghost Tech" 
                     className="relative h-12 w-12 object-contain transition duration-500 group-hover:scale-110 group-hover:rotate-3"
                   />
