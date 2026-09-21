@@ -26,7 +26,7 @@ export default function Navbar() {
           {/* Logo */}
           <a href="/" className="flex items-center group relative">
             <img 
-              src="/logo1.png" 
+              src="/logo-full-onDark.svg" 
               alt="Ghunaghost Tech" 
               className="relative h-12 w-auto object-contain transition duration-300 group-hover:scale-105 md:h-14 z-10"
             />
